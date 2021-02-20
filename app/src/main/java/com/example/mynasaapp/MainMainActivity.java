@@ -3,32 +3,38 @@ package com.example.mynasaapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.example.mynasaapp.dao.ApodDao;
+import com.example.mynasaapp.jsonParser.TickerGetter;
+
 public class MainMainActivity extends AppCompatActivity {
-    Intent toEarth, toCredits, toVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_main);
 
-        toEarth = new Intent(this, TodayActivity.class);
-        toVideo = new Intent(this, MainActivity.class);
-        // toCredits = new Intent(this, InfoActivity.class);
+        BackgroundLoading backgroundLoading = new BackgroundLoading();
+        backgroundLoading.execute("Param1", "Param2", "etc");
 
     }
+    private class BackgroundLoading extends AsyncTask<String, Double, Void> {
+        @Override
+        protected Void doInBackground(String... strings) {
+            TickerGetter tickerGetter = new TickerGetter();
+            tickerGetter.getNameByTicker();
 
-    public void onVideoClick(View view) {
-         startActivity(toVideo);
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Double... values) {
+
+        }
     }
 
-    public void onEarthClick(View view) {
-        startActivity(toEarth);
-    }
-
-    public void onCreditsClick(View view) {
-
-    }
 }

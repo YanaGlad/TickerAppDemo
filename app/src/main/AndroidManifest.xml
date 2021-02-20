@@ -13,7 +13,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".TodayActivity" />
         <activity android:name=".KakayatoActivity" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".DescriptionActivity" />
         <activity android:name=".MainMainActivity">
             <intent-filter>
