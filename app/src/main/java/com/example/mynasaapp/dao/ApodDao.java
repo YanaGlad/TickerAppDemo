@@ -23,9 +23,8 @@ public class ApodDao implements ScienceIDao {
     public List<ScienceI> retrieve() {
         ArrayList<ScienceI> images = new ArrayList<ScienceI>();
 
-        System.out.println("Begin");
         try {
-            String TICKER_URL = "https://mboum.com/api/v1/tr/trending?apikey=demo";
+            String TICKER_URL = "https://mboum.com/api/v1/tr/trending?apikey=T4sGPqNq58PHGgh92K0gpjGylaQgjA0aBXonwb01v3TfodoC5nnk9hHgCJuy";
             java.net.URL apod = new URL(TICKER_URL);
             HttpURLConnection urlConnection = (HttpURLConnection) apod.openConnection();
 
@@ -49,9 +48,17 @@ public class ApodDao implements ScienceIDao {
             JSONObject jsonObject = new JSONObject(jsonArray.getString(0));
             JSONArray values = new JSONArray(jsonObject.getString("quotes")); //Все тикеры
 
-            for (int i = 0; i < values.length(); i++) {
+            System.out.println("This!!!!!!!!!!!!");
+            int i = 0;
+            System.out.println(values.get(i));
+            while (i<158){
                 System.out.print(values.get(i) + " ");
+                i++;
             }
+            System.out.println("ALLL IS");
+//            for (int i = 0; i < 158; i++) {
+//                System.out.print(values.get(i) + " ");
+//            }
 //           jsonObject = new JSONObject(jsonObject.getString(quotes));
 //           jsonObject = new JSONObject(jsonObject.getString("result"));
 //           System.out.println("NOW");
