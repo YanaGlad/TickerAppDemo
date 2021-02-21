@@ -12,16 +12,23 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+//https://mboum.com/api/v1/qu/quote/?symbol=AAPL,F&apikey=T4sGPqNq58PHGgh92K0gpjGylaQgjA0aBXonwb01v3TfodoC5nnk9hHgCJuy
 
 public class TickerGetter {
+    private String TICKER_URL;
+    private String jsonContent;
+    private JSONObject jsonObject;
 
-    public void getNameByTicker() {
+    public TickerGetter() {
+
+    }
+
+    public void loadData(String tickerName) {
         try {
 
-            //https://mboum.com/api/v1/qu/quote/?symbol=AAPL,F&apikey=T4sGPqNq58PHGgh92K0gpjGylaQgjA0aBXonwb01v3TfodoC5nnk9hHgCJuy
-            String TICKER_URL = "https://mboum.com/api/v1/qu/quote/?symbol=MGNI,F&apikey=T4sGPqNq58PHGgh92K0gpjGylaQgjA0aBXonwb01v3TfodoC5nnk9hHgCJuy";
-            java.net.URL apod = new URL(TICKER_URL);
-            HttpURLConnection urlConnection = (HttpURLConnection) apod.openConnection();
+            changeUrl(tickerName);
+            java.net.URL url = new URL(TICKER_URL);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -29,63 +36,14 @@ public class TickerGetter {
             String line;
 
             StringBuilder builder = new StringBuilder();
-            while ((line = br.readLine()) != null) {
-                builder.append(line);
-                System.out.println(line);
-            }
-            String jsonContent = builder.toString();
+
+            while ((line = br.readLine()) != null) builder.append(line);
+            jsonContent = builder.toString();
 
             JSONArray jsonArray = new JSONArray(jsonContent);
+            jsonObject = new JSONObject(jsonArray.getString(0));
 
-            System.out.println("LOOOK");
-            JSONObject jsonObject = new JSONObject(jsonArray.getString(0));
-            System.out.println(jsonObject);
-            System.out.println("NAME:");
-            System.out.println(jsonObject.getString("longName"));
-//            JSONArray values = new JSONArray(jsonObject.getString("quotes")); //Все тикеры
-//
-//            System.out.println("This!!!!!!!!!!!!");
-//            int i = 0;
-//            System.out.println(values.get(i));
-//            while (i<158){
-//                System.out.print(values.get(i) + " ");
-//                i++;
-//            }
-
-//------------------------------------------------------------------------------------------------------
-
-//            String TICKER_URL = "https://mboum.com/api/v1/tr/trending?apikey=T4sGPqNq58PHGgh92K0gpjGylaQgjA0aBXonwb01v3TfodoC5nnk9hHgCJuy";
-//            java.net.URL apod = new URL(TICKER_URL);
-//            HttpURLConnection urlConnection = (HttpURLConnection) apod.openConnection();
-//
-//            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-//            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-//
-//            String line;
-//
-//            StringBuilder builder = new StringBuilder();
-//            while ((line = br.readLine()) != null) {
-//                builder.append(line);
-//                System.out.println(line);
-//            }
-//            String jsonContent = builder.toString();
-//
-//            JSONArray jsonArray = new JSONArray(jsonContent);
-//
-//            String quotes = "count";
-//
-//            System.out.println("LOOOK");
-//            JSONObject jsonObject = new JSONObject(jsonArray.getString(0));
-//            JSONArray values = new JSONArray(jsonObject.getString("quotes")); //Все тикеры
-//
-//            System.out.println("This!!!!!!!!!!!!");
-//            int i = 0;
-//            System.out.println(values.get(i));
-//            while (i<158){
-//                System.out.print(values.get(i) + " ");
-//                i++;
-//            }
-//
+            jsonContent = builder.toString();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -93,6 +51,17 @@ public class TickerGetter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    void changeUrl(String tickerName) {
+        TICKER_URL = "https://mboum.com/api/v1/qu/quote/?symbol=" + tickerName + ",F&apikey=YFAcFuRKFHBuGIDQjTDTMEvZsk6OElZVWxxB6tN2cQUBOsXjj8MGcCgeK5A5";
+    }
+
+    public String getNameByTicker() throws JSONException {
+        return jsonObject.getString("longName");
+    }
+
+    public String getPriceByTicker() throws JSONException {
+        return jsonObject.getString("regularMarketPrice");
     }
 }
