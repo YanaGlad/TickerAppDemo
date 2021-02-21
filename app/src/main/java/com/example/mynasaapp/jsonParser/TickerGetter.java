@@ -16,7 +16,6 @@ import java.net.URL;
 
 public class TickerGetter {
     private String TICKER_URL;
-    private String jsonContent;
     private JSONObject jsonObject;
 
     public TickerGetter() {
@@ -38,12 +37,11 @@ public class TickerGetter {
             StringBuilder builder = new StringBuilder();
 
             while ((line = br.readLine()) != null) builder.append(line);
-            jsonContent = builder.toString();
+            String jsonContent = builder.toString();
 
             JSONArray jsonArray = new JSONArray(jsonContent);
             jsonObject = new JSONObject(jsonArray.getString(0));
 
-            jsonContent = builder.toString();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

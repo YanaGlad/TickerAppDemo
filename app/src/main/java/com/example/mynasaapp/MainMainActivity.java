@@ -14,7 +14,6 @@ public class MainMainActivity extends AppCompatActivity {
     TextView t1;
     TextView t2;
     TextView t3;
-    static String[] strs;
     static String name, price;
 
     @Override
