@@ -12,11 +12,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-//https://mboum.com/api/v1/qu/quote/?symbol=AAPL,F&apikey=T4sGPqNq58PHGgh92K0gpjGylaQgjA0aBXonwb01v3TfodoC5nnk9hHgCJuy
+//https://mboum.com/api/v1/qu/quote/?symbol=AAPL,F&apikey=OnTzYmu6BOQAsducd9Qvx4qLvnf9XJtKJ6xv1wa4VtS3e9wLDykN0HCyzvJk
 
 public class TickerGetter {
     private String TICKER_URL;
     private JSONObject jsonObject;
+    private String apiKey = "OnTzYmu6BOQAsducd9Qvx4qLvnf9XJtKJ6xv1wa4VtS3e9wLDykN0HCyzvJk";
 
     public TickerGetter() {
 
@@ -52,7 +53,7 @@ public class TickerGetter {
     }
 
     void changeUrl(String tickerName) {
-        TICKER_URL = "https://mboum.com/api/v1/qu/quote/?symbol=" + tickerName + ",F&apikey=YFAcFuRKFHBuGIDQjTDTMEvZsk6OElZVWxxB6tN2cQUBOsXjj8MGcCgeK5A5";
+        TICKER_URL = "https://mboum.com/api/v1/qu/quote/?symbol=" + tickerName + ",F&apikey=" + apiKey;
     }
 
     public String getNameByTicker() throws JSONException {

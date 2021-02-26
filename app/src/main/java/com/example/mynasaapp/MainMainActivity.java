@@ -6,15 +6,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.mynasaapp.Support.Data;
 import com.example.mynasaapp.jsonParser.TickerGetter;
 
 import org.json.JSONException;
 
 public class MainMainActivity extends AppCompatActivity {
-    TextView t1;
-    TextView t2;
-    TextView t3;
-    static String name, price;
+    private  TextView t1, t2, t3;
+    private String name, price;
+    private String currentTicker = Data.tickers[0];
+    private 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +33,16 @@ public class MainMainActivity extends AppCompatActivity {
         while (name == null || price == null)
             System.out.println("wait...");
 
-        t1.setText("MGNI");
+        t1.setText(currentTicker);
         t2.setText(name);
         t3.setText(price);
     }
 
-    private static class BackgroundLoading extends AsyncTask<String, Double, Void> {
+    private  class BackgroundLoading extends AsyncTask<String, Double, Void> {
         @Override
         protected Void doInBackground(String... strings) {
             TickerGetter tickerGetter = new TickerGetter();
-            tickerGetter.loadData("MGNI");
+            tickerGetter.loadData(currentTicker);
 
             try {
                 name = tickerGetter.getNameByTicker();
