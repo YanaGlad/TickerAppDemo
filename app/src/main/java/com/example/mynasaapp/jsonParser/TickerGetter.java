@@ -63,4 +63,8 @@ public class TickerGetter {
     public String getPriceByTicker() throws JSONException {
         return jsonObject.getString("regularMarketPrice");
     }
+
+    public String getChangePercent() throws JSONException {
+        return jsonObject.getString("regularMarketChangePercent") + "%";
+    }
 }
