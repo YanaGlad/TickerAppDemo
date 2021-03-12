@@ -2,6 +2,7 @@ package com.example.mynasaapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -218,8 +219,11 @@ public class MainMainActivity extends AppCompatActivity {
     }
 
     public static void addTickerToDb(String tickerName){
-        featureDB.execSQL("INSERT into feature (_id, stars) VALUES (1, 'AAPL')");
-
+        countFavourites++;
+        featureDB.execSQL("INSERT into feature (ticker) VALUES (0, 'AAPL')");
+//        ContentValues cv = new ContentValues();
+//        cv.put("_id", countFavourites);
+//        featureDB.update("feature", cv, "_id = " + 0, null);
     }
 
     @Override
@@ -229,11 +233,11 @@ public class MainMainActivity extends AppCompatActivity {
         DB_PATH = this.getFilesDir().getPath() + "feature.db";
         featureDB = getBaseContext().openOrCreateDatabase("feature.db", MODE_PRIVATE, null);
         featureDB.execSQL("DROP TABLE IF EXISTS feature");
-        featureDB.execSQL("CREATE TABLE IF NOT EXISTS feature (_id INTEGER, TICKER TEXT)");
-        featureDB.execSQL("INSERT into feature (_id, stars) VALUES (1, 'AAPL')");
+        featureDB.execSQL("CREATE TABLE IF NOT EXISTS feature (ticker TEXT)");
+        featureDB.execSQL("INSERT into feature (ticker) VALUES ('AAPL')");
+        countFavourites++;
 
-
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < countFavourites; i++) {
             cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
             if (cursor != null && cursor.moveToFirst()) {
                 currentTicker = Data.searchTicker(cursor.getString(1));
