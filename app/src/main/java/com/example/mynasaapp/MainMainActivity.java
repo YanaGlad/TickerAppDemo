@@ -220,10 +220,23 @@ public class MainMainActivity extends AppCompatActivity {
 
     public static void addTickerToDb(String tickerName){
         countFavourites++;
-        featureDB.execSQL("INSERT into feature (ticker) VALUES (0, 'AAPL')");
-//        ContentValues cv = new ContentValues();
-//        cv.put("_id", countFavourites);
-//        featureDB.update("feature", cv, "_id = " + 0, null);
+        featureDB.execSQL("INSERT into feature (_id, ticker) VALUES (0, 'AAPL')");
+        ContentValues cv = new ContentValues();
+        cv.put("_id", countFavourites);
+        featureDB.update("feature", cv, "_id = " + 0, null);
+    }
+
+    public static void removeTickerFromDb(String tickerName){
+        featureDB.execSQL("DELETE * from feature WHERE ticker = " + tickerName);
+        countFavourites--;
+
+        ContentValues cv = new ContentValues();
+       //обновить id чтобы было по порядку после удаления
+        for (int i = 0; i < countFavourites; i++) {
+            cv.put("_id", i);
+            featureDB.update("feature", cv, "_id = " + i, null);
+        }
+
     }
 
     @Override
@@ -233,8 +246,8 @@ public class MainMainActivity extends AppCompatActivity {
         DB_PATH = this.getFilesDir().getPath() + "feature.db";
         featureDB = getBaseContext().openOrCreateDatabase("feature.db", MODE_PRIVATE, null);
         featureDB.execSQL("DROP TABLE IF EXISTS feature");
-        featureDB.execSQL("CREATE TABLE IF NOT EXISTS feature (ticker TEXT)");
-        featureDB.execSQL("INSERT into feature (ticker) VALUES ('AAPL')");
+        featureDB.execSQL("CREATE TABLE IF NOT EXISTS feature (_id INTEGER, ticker TEXT)");
+        featureDB.execSQL("INSERT into feature (_id, ticker) VALUES (1, 'AAPL')");
         countFavourites++;
 
         for (int i = 0; i < countFavourites; i++) {
