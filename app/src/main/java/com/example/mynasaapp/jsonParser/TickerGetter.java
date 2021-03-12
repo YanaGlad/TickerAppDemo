@@ -17,7 +17,7 @@ import java.net.URL;
 public class TickerGetter {
     private String TICKER_URL;
     private JSONObject jsonObject;
-    private String apiKey = "OnTzYmu6BOQAsducd9Qvx4qLvnf9XJtKJ6xv1wa4VtS3e9wLDykN0HCyzvJk";
+    private String apiKey = "p4FVQW2vyUetIq4UWHmYrb6cIebqzg16IuLlVuOtiMtbHcyOFH5c284lM6UY";
 
     public TickerGetter() {
 
@@ -25,6 +25,8 @@ public class TickerGetter {
 
     public void loadData(String tickerName) {
         try {
+
+            System.out.println("Loading data");
 
             changeUrl(tickerName);
             java.net.URL url = new URL(TICKER_URL);

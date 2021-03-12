@@ -112,5 +112,13 @@ public class Data {
             "XL",
             "IPOE"
     };
+
+    public static String searchTicker(String tick){
+        for (String ticker : tickers) {
+            if (tick.equals(ticker))
+                return ticker;
+        }
+        return null;
+    }
 }
 
