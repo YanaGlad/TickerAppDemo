@@ -3,7 +3,6 @@ package com.example.mynasaapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -18,126 +17,7 @@ import com.example.mynasaapp.jsonParser.TickerGetter;
 
 import org.json.JSONException;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-//public class MainActivity extends MainRunActivity {
-//    public static SQLiteDatabase timeDB, catsDB, strategyDB, mathsDB;
-//    public static Cursor cursor, catCursor, strategyCursor, mathsCursor;
-//    public static String DB_PATH1, DB_PATH2, DB_PATH3;
-//    public static ArrayList<Cat> listOfCats;
-//    public static ArrayList<CatPet> listOfPets;
-//
-//    Context context;
-//
-//    public MenuView getNewView() {
-//        context = this;
-//        try {
-//            BitmapLoader bitmapLoader = new BitmapLoader(this, this.getGamePaint());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return new MenuView(this);
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        timeLevels = new ArrayList<>();
-//        DB_PATH1 = this.getFilesDir().getPath() + "time.db";
-//        timeDB = getBaseContext().openOrCreateDatabase("time.db", MODE_PRIVATE, null);
-//        //     timeDB.execSQL("DROP TABLE IF EXISTS time");
-//        timeDB.execSQL("CREATE TABLE IF NOT EXISTS time (_id INTEGER, stars INTEGER)");
-//        timeDB.execSQL("INSERT into time (_id, stars) VALUES (1,0)");
-//        timeDB.execSQL("INSERT into time (_id, stars) VALUES (2,0)");
-//        timeDB.execSQL("INSERT into time (_id, stars) VALUES (3,0)");
-//        timeDB.execSQL("INSERT into time (_id, stars) VALUES (4,0)");
-//        timeDB.execSQL("INSERT into time (_id, stars) VALUES (5,0)");
-//        timeDB.execSQL("INSERT into time (_id, stars) VALUES (6,0)");
-//        timeDB.execSQL("INSERT into time (_id, stars) VALUES (7,0)");
-//        timeDB.execSQL("INSERT into time (_id, stars) VALUES (8,0)");
-//        timeDB.execSQL("INSERT into time (_id, stars) VALUES (9,0)");
-//
-//        for (int i = 0; i < BasicGameSupport.levelsCount; i++) {
-//            cursor = timeDB.rawQuery("SELECT * from time WHERE _id = " + (i + 1), null);
-//            if (cursor != null && cursor.moveToFirst()) {
-//                timeLevels.add(new Level(cursor.getInt(0), cursor.getInt(1)));
-//            }
-//        }
-//
-//        DB_PATH2 = this.getFilesDir().getPath() + "cats.db";
-//        catsDB = getBaseContext().openOrCreateDatabase("cats.db", MODE_PRIVATE, null);
-//        //  catsDB.execSQL("DROP TABLE IF EXISTS cats");
-//        catsDB.execSQL("CREATE TABLE IF NOT EXISTS cats (_id INTEGER, name TEXT, imageSet TEXT, power INTEGER, speed INTEGER, delay INTEGER,  chosen INTEGER, unlocked INTEGER, room INTEGER, price INTEGER, health INTEGER)"); ///PRICE
-//        catsDB.execSQL("INSERT into cats (_id, name, imageSet, power, speed , delay , chosen, unlocked, room, price, health) VALUES (1, 'Gray', 'gray', 25, 5, 3, 1, 1, 1, 25, 30)");
-//        catsDB.execSQL("INSERT into cats (_id, name, imageSet, power, speed , delay , chosen, unlocked, room, price, health) VALUES (2, 'Oragne', 'orange', 35 , 5, 3, 0, 0, -1, 30, 35)");
-//        catsDB.execSQL("INSERT into cats (_id, name, imageSet, power, speed , delay , chosen, unlocked, room, price, health) VALUES (3, 'Alien', 'greenAlien', 50 , 5, 4, 0, 0, -1, 50, 70)");
-//        catsDB.execSQL("INSERT into cats (_id, name, imageSet, power, speed , delay , chosen, unlocked, room, price, health) VALUES (4, 'Shadow', 'shadow', 40 , 5, 3, 0, 0, -1, 45, 40)");
-//        catsDB.execSQL("INSERT into cats (_id, name, imageSet, power, speed , delay , chosen, unlocked, room, price, health) VALUES (5, 'MainCoon', 'mainCoon', 60 , 5, 2, 0, 0, -1, 60, 100)");
-//
-//
-//        listOfCats = new ArrayList<>();
-//        listOfPets = new ArrayList<>();
-//
-//        for (int i = 0; i < BasicGameSupport.catsCount; i++) {
-//            catCursor = catsDB.rawQuery("SELECT * from cats WHERE _id = " + (i + 1), null);
-//            if (catCursor != null && catCursor.moveToFirst()) {
-//                listOfCats.add(new Cat(catCursor.getInt(0), catCursor.getString(1), catCursor.getString(2),
-//                        catCursor.getInt(3), catCursor.getInt(4), catCursor.getInt(5), catCursor.getInt(6),
-//                        catCursor.getInt(7), catCursor.getInt(8), catCursor.getInt(9), catCursor.getInt(10)));
-//
-//                listOfPets.add(new CatPet(listOfCats.get(i), catCursor.getInt(0), catCursor.getInt(8)));
-//            }
-//        }
-//
-//        strategyLevels = new ArrayList<>();
-//
-//        DB_PATH3 = this.getFilesDir().getPath() + "strategy.db";
-//        strategyDB = getBaseContext().openOrCreateDatabase("strategy.db", MODE_PRIVATE, null);
-//        // strategyDB.execSQL("DROP TABLE IF EXISTS strategy");
-//        strategyDB.execSQL("CREATE TABLE IF NOT EXISTS strategy (_id INTEGER, stars INTEGER)");
-//        strategyDB.execSQL("INSERT into strategy (_id, stars) VALUES (1,0)");
-//        strategyDB.execSQL("INSERT into strategy (_id, stars) VALUES (2,0)");
-//        strategyDB.execSQL("INSERT into strategy (_id, stars) VALUES (3,0)");
-//        strategyDB.execSQL("INSERT into strategy (_id, stars) VALUES (4,0)");
-//        strategyDB.execSQL("INSERT into strategy (_id, stars) VALUES (5,0)");
-//        strategyDB.execSQL("INSERT into strategy (_id, stars) VALUES (6,0)");
-//        strategyDB.execSQL("INSERT into strategy (_id, stars) VALUES (7,0)");
-//        strategyDB.execSQL("INSERT into strategy (_id, stars) VALUES (8,0)");
-//        strategyDB.execSQL("INSERT into strategy (_id, stars) VALUES (9,0)");
-//
-//
-//        for (int i = 0; i < BasicGameSupport.levelsCount; i++) {
-//            strategyCursor = strategyDB.rawQuery("SELECT * from strategy WHERE _id = " + (i + 1), null);
-//            if (strategyCursor != null && strategyCursor.moveToFirst()) {
-//                strategyLevels.add(new Level(strategyCursor.getInt(0), strategyCursor.getInt(1)));
-//            }
-//        }
-//
-//        mathsLevels = new ArrayList<>();
-//
-//        DB_PATH3 = this.getFilesDir().getPath() + "maths.db";
-//        mathsDB = getBaseContext().openOrCreateDatabase("maths.db", MODE_PRIVATE, null);
-//        // mathsDB.execSQL("DROP TABLE IF EXISTS maths");
-//        mathsDB.execSQL("CREATE TABLE IF NOT EXISTS maths (_id INTEGER, stars INTEGER)");
-//        mathsDB.execSQL("INSERT into maths (_id, stars) VALUES (1,0)");
-//        mathsDB.execSQL("INSERT into maths (_id, stars) VALUES (2,0)");
-//        mathsDB.execSQL("INSERT into maths (_id, stars) VALUES (3,0)");
-//        mathsDB.execSQL("INSERT into maths (_id, stars) VALUES (4,0)");
-//        mathsDB.execSQL("INSERT into maths (_id, stars) VALUES (5,0)");
-//        mathsDB.execSQL("INSERT into maths (_id, stars) VALUES (6,0)");
-//        mathsDB.execSQL("INSERT into maths (_id, stars) VALUES (7,0)");
-//        mathsDB.execSQL("INSERT into maths (_id, stars) VALUES (8,0)");
-//        mathsDB.execSQL("INSERT into maths (_id, stars) VALUES (9,0)");
-//        for (int i = 0; i < BasicGameSupport.levelsCount; i++) {
-//            mathsCursor = mathsDB.rawQuery("SELECT * from maths WHERE _id = " + (i + 1), null);
-//            if (mathsCursor != null && mathsCursor.moveToFirst()) {
-//                mathsLevels.add(new Level(mathsCursor.getInt(0), mathsCursor.getInt(1)));
-//            }
-//        }
-//    }
-//}
-
 
 public class MainMainActivity extends AppCompatActivity {
     public static SQLiteDatabase featureDB;
@@ -147,7 +27,7 @@ public class MainMainActivity extends AppCompatActivity {
     public static int countFavourites = 0;
 
     private String name, price;
-    private String currentTicker = Data.tickers[0];
+    private String currentTicker = Data.tickers[11];
 
 
     private Button button;
@@ -163,9 +43,11 @@ public class MainMainActivity extends AppCompatActivity {
         t3 = findViewById(R.id.textView3);
         button = findViewById(R.id.changeBtn);
 
-        BackgroundLoading backgroundLoading = new BackgroundLoading();
+        tickerInfos = new ArrayList<>();
 
-        backgroundLoading.execute("Param1", "Param2", "etc");
+        LoadingOneTicker loadingOneTicker = new LoadingOneTicker();
+
+        loadingOneTicker.execute("Param1", "Param2", "etc");
 
         while (name == null || price == null)
             System.out.println("wait...");
@@ -174,27 +56,30 @@ public class MainMainActivity extends AppCompatActivity {
         t2.setText(name);
         t3.setText(price);
 
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                BackgroundLoading backgroundLoading2 = new BackgroundLoading();
-//                name = null;
-//                price = null;
-//
-//                backgroundLoading2.execute("Param1", "Param2", "etc");
-//
-//
-//                while (name == null || price == null)
-//                    System.out.println("wait...");
-//
-//                t1.setText(currentTicker);
-//                t2.setText(name);
-//                t3.setText(price);
-//            }
-//        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeInfoFromDB();
+
+                LoadingOneTicker loadingOneTicker2 = new LoadingOneTicker();
+                name = null;
+                price = null;
+
+                loadingOneTicker2.execute("Param1", "Param2", "etc");
+
+
+                while (name == null || price == null)
+                    System.out.println("wait...2");
+
+                t1.setText(currentTicker);
+                t2.setText(name);
+                t3.setText(price);
+            }
+        });
     }
 
-    private class BackgroundLoading extends AsyncTask<String, Double, Void> {
+    private class LoadingAllTickers extends AsyncTask<String, Double, Void> {
         @Override
         protected Void doInBackground(String... strings) {
             TickerGetter tickerGetter = new TickerGetter();
@@ -207,36 +92,61 @@ public class MainMainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
             return null;
         }
 
         @Override
         protected void onProgressUpdate(Double... values) {
-
         }
     }
 
-    public static void addTickerToDb(String tickerName){
-        countFavourites++;
-        featureDB.execSQL("INSERT into feature (_id, ticker) VALUES (0, 'AAPL')");
-        ContentValues cv = new ContentValues();
-        cv.put("_id", countFavourites);
-        featureDB.update("feature", cv, "_id = " + 0, null);
+    private class LoadingOneTicker extends AsyncTask<String, Double, Void> {
+        @Override
+        protected Void doInBackground(String... strings) {
+            TickerGetter tickerGetter = new TickerGetter();
+            tickerGetter.loadData(currentTicker);
+
+            try {
+                name = tickerGetter.getNameByTicker();
+                price = tickerGetter.getPriceByTicker();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Double... values) {
+        }
     }
 
-    public static void removeTickerFromDb(String tickerName){
+    public static void addTickerToDB(String tickerName) {
+        countFavourites++;
+        featureDB.execSQL("INSERT into feature (_id, ticker) VALUES ( " + countFavourites + "," + tickerName + ")");
+    }
+
+    public static void removeTickerFromDB(String tickerName) {
         featureDB.execSQL("DELETE * from feature WHERE ticker = " + tickerName);
         countFavourites--;
 
         ContentValues cv = new ContentValues();
-       //обновить id чтобы было по порядку после удаления
+        //обновить id чтобы было по порядку после удаления
         for (int i = 0; i < countFavourites; i++) {
             cv.put("_id", i);
             featureDB.update("feature", cv, "_id = " + i, null);
         }
 
+    }
+
+    public void takeInfoFromDB() {
+        for (int i = 0; i < countFavourites; i++) {
+            cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
+            if (cursor != null && cursor.moveToFirst()) {
+                currentTicker = Data.searchTicker(cursor.getString(1));
+                System.out.println("Current ticker is " + currentTicker);
+            }
+        }
     }
 
     @Override
@@ -250,13 +160,6 @@ public class MainMainActivity extends AppCompatActivity {
         featureDB.execSQL("INSERT into feature (_id, ticker) VALUES (1, 'AAPL')");
         countFavourites++;
 
-        for (int i = 0; i < countFavourites; i++) {
-            cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
-            if (cursor != null && cursor.moveToFirst()) {
-                currentTicker = Data.searchTicker(cursor.getString(1));
-                System.out.println("Current ticker is " + currentTicker);
-            }
-        }
     }
 
 }

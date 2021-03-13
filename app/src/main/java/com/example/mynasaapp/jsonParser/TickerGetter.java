@@ -13,11 +13,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 //https://mboum.com/api/v1/qu/quote/?symbol=AAPL,F&apikey=OnTzYmu6BOQAsducd9Qvx4qLvnf9XJtKJ6xv1wa4VtS3e9wLDykN0HCyzvJk
-
+// Загрузка данных из апи
 public class TickerGetter {
     private String TICKER_URL;
     private JSONObject jsonObject;
-    private String apiKey = "p4FVQW2vyUetIq4UWHmYrb6cIebqzg16IuLlVuOtiMtbHcyOFH5c284lM6UY";
+    private String apiKey = "JjcMoFz3Cu5EQbo4sJjsDRaiJy61GCUtSyYtfkUHCDeAaurOuDqBt9JW6J6T";
 
     public TickerGetter() {
 
