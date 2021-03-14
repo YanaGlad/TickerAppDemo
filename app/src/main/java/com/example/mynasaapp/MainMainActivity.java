@@ -26,12 +26,12 @@ public class MainMainActivity extends AppCompatActivity {
     public static ArrayList<TickerInfo> tickerInfos;
     public static int countFavourites = 0;
 
-    private String name, price;
+    private String name, price, priceChange;
     private String currentTicker = Data.tickers[1];
 
 
     private Button button;
-    private TextView t1, t2, t3;
+    private TextView t1, t2, t3, t4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,27 +41,29 @@ public class MainMainActivity extends AppCompatActivity {
         t1 = findViewById(R.id.textView1);
         t2 = findViewById(R.id.textView2);
         t3 = findViewById(R.id.textView3);
+        t4 = findViewById(R.id.textView4);
+
         button = findViewById(R.id.changeBtn);
 
         tickerInfos = new ArrayList<>();
 
-        LoadingOneTicker loadingOneTicker = new LoadingOneTicker();
+        LoadingOneTicker backgroundLoading = new LoadingOneTicker();
+        new Thread(backgroundLoading).start();
 
-        loadingOneTicker.execute("Param1", "Param2", "etc");
-
-        while (name == null || price == null)
+        while (name == null || price == null || priceChange == null)
             System.out.println("wait...");
 
         t1.setText(currentTicker);
         t2.setText(name);
         t3.setText(price);
+        t4.setText(priceChange);
 
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoadingAllTickers loadingAllTickers = new LoadingAllTickers();
-                loadingAllTickers.execute("Param1", "Param2", "etc");
+                new Thread(loadingAllTickers).start();
 
                 System.out.println("Done");
                 for (int i = 0; i < tickerInfos.size(); i++) {
@@ -72,9 +74,10 @@ public class MainMainActivity extends AppCompatActivity {
         });
     }
 
-    private class LoadingAllTickers extends AsyncTask<String, Double, Void> {
+    private static class LoadingAllTickers implements Runnable {
+
         @Override
-        protected Void doInBackground(String... strings) {
+        public void run() {
             for (int i = 0; i < Data.tickers.length; i++) {
                 String ticker = Data.tickers[i];
 
@@ -90,35 +93,30 @@ public class MainMainActivity extends AppCompatActivity {
                 }
 
             }
-            return null;
-        }
 
-
-        @Override
-        protected void onProgressUpdate(Double... values) {
         }
     }
 
-    private class LoadingOneTicker extends AsyncTask<String, Double, Void> {
+
+    private class LoadingOneTicker implements Runnable {
+
         @Override
-        protected Void doInBackground(String... strings) {
+        public void run() {
             TickerGetter tickerGetter = new TickerGetter();
             tickerGetter.loadData(currentTicker);
 
             try {
                 name = tickerGetter.getNameByTicker();
                 price = tickerGetter.getPriceByTicker();
+                priceChange = tickerGetter.getChangePercent();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return null;
         }
 
-        @Override
-        protected void onProgressUpdate(Double... values) {
-        }
     }
+
 
     public static void addTickerToDB(String tickerName) {
         countFavourites++;
@@ -160,62 +158,4 @@ public class MainMainActivity extends AppCompatActivity {
         countFavourites++;
 
     }
-
 }
-
-//
-//public class MainMainActivity extends AppCompatActivity {
-//    private TextView t1, t2, t3;
-//    private String name, price;
-//    private String currentTicker = Data.tickers[0];
-//    private Button change;
-//    private EditText newNumber;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main_main);
-//
-//        t1 = findViewById(R.id.textView1);
-//        t2 = findViewById(R.id.textView2);
-//        t3 = findViewById(R.id.textView3);
-//        newNumber = findViewById(R.id.editTxt);
-//        change = findViewById(R.id.changeBtn);
-//
-//        BackgroundLoading backgroundLoading = new BackgroundLoading();
-//        new Thread(backgroundLoading).start();
-//
-//        t1.setText(currentTicker);
-//        t2.setText(name);
-//        t3.setText(price);
-//    }
-//
-//    synchronized void changeNames(TickerGetter tickerGetter) throws InterruptedException {
-//        tickerGetter.loadData(currentTicker);
-//        wait();
-//        System.out.println("Waiting...");
-//        try {
-//            name = tickerGetter.getNameByTicker();
-//            price = tickerGetter.getPriceByTicker();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println("Notifying");
-//        notify();
-//    }
-//
-//    private class BackgroundLoading implements Runnable {
-//
-//        @Override
-//        public void run() {
-//
-//            TickerGetter tickerGetter = new TickerGetter();
-//            try {
-//                changeNames(tickerGetter);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
-//}
