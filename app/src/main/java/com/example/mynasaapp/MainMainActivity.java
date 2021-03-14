@@ -63,7 +63,8 @@ public class MainMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 LoadingAllTickers loadingAllTickers = new LoadingAllTickers();
-                new Thread(loadingAllTickers).start();
+                Thread loader = new Thread(loadingAllTickers);
+                loader.start();
 
                 System.out.println("Done");
                 for (int i = 0; i < tickerInfos.size(); i++) {
@@ -71,6 +72,7 @@ public class MainMainActivity extends AppCompatActivity {
                             + " " + tickerInfos.get(i).getPrice() + tickerInfos.get(i).getPriceChange());
                 }
             }
+
         });
     }
 
@@ -86,8 +88,9 @@ public class MainMainActivity extends AppCompatActivity {
 
                 try {
                     System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
-                    tickerInfos.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(),
+                    MainMainActivity.tickerInfos.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(),
                             tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -114,7 +117,6 @@ public class MainMainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
     }
 
 
