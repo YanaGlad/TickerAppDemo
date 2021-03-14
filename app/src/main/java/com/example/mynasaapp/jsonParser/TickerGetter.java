@@ -17,7 +17,7 @@ import java.net.URL;
 public class TickerGetter {
     private String TICKER_URL;
     private JSONObject jsonObject;
-    private String apiKey = "JjcMoFz3Cu5EQbo4sJjsDRaiJy61GCUtSyYtfkUHCDeAaurOuDqBt9JW6J6T";
+    private String apiKey = "Js3NevXUW27CP1xP0T99e7d7sriJCLxrg9fgQGbS1rpSBE85VKsp2A6VcRs4";
 
     public TickerGetter() {
 
@@ -26,7 +26,7 @@ public class TickerGetter {
     public void loadData(String tickerName) {
         try {
 
-            System.out.println("Loading data");
+             System.out.println("Loading data");
 
             changeUrl(tickerName);
             java.net.URL url = new URL(TICKER_URL);
@@ -44,6 +44,7 @@ public class TickerGetter {
 
             JSONArray jsonArray = new JSONArray(jsonContent);
             jsonObject = new JSONObject(jsonArray.getString(0));
+            System.out.println("Loaded");
 
         } catch (MalformedURLException e) {
             e.printStackTrace();

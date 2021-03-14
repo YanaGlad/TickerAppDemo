@@ -3,7 +3,7 @@ package com.example.mynasaapp.Support;
 public class TickerInfo {
     private String nameTicker, nameCompany, priceChange, price;
 
-    public TickerInfo(String nameTicker, String nameCompany, String priceChange, String price) {
+    public TickerInfo(String nameTicker, String nameCompany, String price, String priceChange ) {
         this.nameTicker = nameTicker;
         this.nameCompany = nameCompany;
         this.priceChange = priceChange;

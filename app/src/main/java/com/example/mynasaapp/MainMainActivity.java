@@ -27,7 +27,7 @@ public class MainMainActivity extends AppCompatActivity {
     public static int countFavourites = 0;
 
     private String name, price;
-    private String currentTicker = Data.tickers[11];
+    private String currentTicker = Data.tickers[1];
 
 
     private Button button;
@@ -60,21 +60,14 @@ public class MainMainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                takeInfoFromDB();
+                LoadingAllTickers loadingAllTickers = new LoadingAllTickers();
+                loadingAllTickers.execute("Param1", "Param2", "etc");
 
-                LoadingOneTicker loadingOneTicker2 = new LoadingOneTicker();
-                name = null;
-                price = null;
-
-                loadingOneTicker2.execute("Param1", "Param2", "etc");
-
-
-                while (name == null || price == null)
-                    System.out.println("wait...2");
-
-                t1.setText(currentTicker);
-                t2.setText(name);
-                t3.setText(price);
+                System.out.println("Done");
+                for (int i = 0; i < tickerInfos.size(); i++) {
+                    System.out.println(tickerInfos.get(i).getNameTicker() + " " + tickerInfos.get(i).getNameCompany()
+                            + " " + tickerInfos.get(i).getPrice() + tickerInfos.get(i).getPriceChange());
+                }
             }
         });
     }
@@ -82,18 +75,24 @@ public class MainMainActivity extends AppCompatActivity {
     private class LoadingAllTickers extends AsyncTask<String, Double, Void> {
         @Override
         protected Void doInBackground(String... strings) {
-            TickerGetter tickerGetter = new TickerGetter();
-            tickerGetter.loadData(currentTicker);
+            for (int i = 0; i < Data.tickers.length; i++) {
+                String ticker = Data.tickers[i];
 
-            try {
-                name = tickerGetter.getNameByTicker();
-                price = tickerGetter.getPriceByTicker();
+                TickerGetter tickerGetter = new TickerGetter();
+                tickerGetter.loadData(ticker);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                try {
+                    System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
+                    tickerInfos.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(),
+                            tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
             return null;
         }
+
 
         @Override
         protected void onProgressUpdate(Double... values) {

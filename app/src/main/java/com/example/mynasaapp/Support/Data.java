@@ -16,8 +16,7 @@ public class Data {
             "RTKMP",
             "AFLT",
             "MTSS",
-            "CHMF",
-///////////////////////////////////////
+            "CHMF"
     };
 
     public static String searchTicker(String tick) {
