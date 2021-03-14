@@ -6,17 +6,17 @@ public class Data {
     public static String[] tickers = {
             "AAPL",
             "TSLA",
-            "PINS_SPB",
-            "TWTR_SPB",
-            "DLB_SPB",
-            "ROSN",
-            "LKOH",
-            "GAZP",
-            "SBER",
-            "RTKMP",
-            "AFLT",
-            "MTSS",
-            "CHMF"
+            "AMZN",
+            "BA",
+            "CSCO",
+            "KO",
+            "EBAY",
+            "INTC",
+            "MSFT",
+            "MCD",
+            "GOOG",
+            "ORCL",
+            "BAC"
     };
 
     public static String searchTicker(String tick) {
