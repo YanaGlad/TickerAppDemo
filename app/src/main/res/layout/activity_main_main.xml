@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainMainActivity">
+    tools:context="com.example.tickersapp12.MainMainActivity">
 
     <TextView
         android:id="@+id/textView1"
@@ -47,10 +47,15 @@
         />
 
     <Button
+        android:id="@+id/sout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Vivesti vse akcii " />
+
+    <Button
         android:id="@+id/changeBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Change" />
-
+        android:text="Vivesti vse akcii " />
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.mynasaapp.Support;
+package com.example.tickersapp12.Support;
 
 public class TickerInfo {
     private String nameTicker, nameCompany, priceChange, price;

@@ -1,19 +1,19 @@
-package com.example.mynasaapp;
+package com.example.tickersapp12;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.mynasaapp.Support.Data;
-import com.example.mynasaapp.Support.TickerInfo;
-import com.example.mynasaapp.jsonParser.TickerGetter;
+import com.example.mynasaapp.R;
+import com.example.tickersapp12.Support.Data;
+import com.example.tickersapp12.Support.TickerInfo;
+import com.example.tickersapp12.jsonParser.TickerGetter;
 
 import org.json.JSONException;
 
@@ -43,7 +43,7 @@ public class MainMainActivity extends AppCompatActivity {
         t3 = findViewById(R.id.textView3);
         t4 = findViewById(R.id.textView4);
 
-        button = findViewById(R.id.changeBtn);
+        button = findViewById(R.id.sout);
 
         tickerInfos = new ArrayList<>();
 

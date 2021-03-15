@@ -1,4 +1,4 @@
-package com.example.mynasaapp.Support;
+package com.example.tickersapp12.Support;
 
 //Вспомогательные функции и переменные для работы с данными
 public class Data {
@@ -16,7 +16,11 @@ public class Data {
             "MCD",
             "GOOG",
             "ORCL",
-            "BAC"
+            "BAC",
+            "OGZPY",
+            "LUKOY",
+            "ROSYY",
+            "AKSJF"
     };
 
     public static String searchTicker(String tick) {

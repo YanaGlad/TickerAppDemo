@@ -1,4 +1,4 @@
-package com.example.mynasaapp.jsonParser;
+package com.example.tickersapp12.jsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;

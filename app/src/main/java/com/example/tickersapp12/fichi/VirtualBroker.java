@@ -1,4 +1,4 @@
-package com.example.mynasaapp.fichi;
+package com.example.tickersapp12.fichi;
 
 public class VirtualBroker {
     // В бд хранится информация о купленных акциях
