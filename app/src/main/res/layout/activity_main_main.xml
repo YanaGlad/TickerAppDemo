@@ -50,12 +50,14 @@
         android:id="@+id/load"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onLoadClick"
         android:text="Load data" />
 
     <Button
         android:id="@+id/soutFromList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onPrintClick"
         android:text="Vivesti vse akcii from list" />
 
 </LinearLayout>

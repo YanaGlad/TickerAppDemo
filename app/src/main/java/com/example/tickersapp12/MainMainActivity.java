@@ -30,21 +30,15 @@ public class MainMainActivity extends AppCompatActivity {
     private String currentTicker = Data.tickers[1];
 
 
-    private Button button, buttonFromList;
-    private TextView t1, t2, t3, t4;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_main);
 
-        t1 = findViewById(R.id.textView1);
-        t2 = findViewById(R.id.textView2);
-        t3 = findViewById(R.id.textView3);
-        t4 = findViewById(R.id.textView4);
-
-        button = findViewById(R.id.load);
-        buttonFromList = findViewById(R.id.soutFromList);
+        TextView t1 = findViewById(R.id.textView1);
+        TextView t2 = findViewById(R.id.textView2);
+        TextView t3 = findViewById(R.id.textView3);
+        TextView t4 = findViewById(R.id.textView4);
 
         tickerInfos = new ArrayList<>();
 
@@ -59,26 +53,19 @@ public class MainMainActivity extends AppCompatActivity {
         t3.setText(price);
         t4.setText(priceChange);
 
+    }
+    public void onPrintClick(View view){
+        for (int i = 0; i < tickerInfos.size(); i++) {
+            System.out.println(tickerInfos.get(i).getNameTicker() + " " + tickerInfos.get(i).getNameCompany()
+                    + " " + tickerInfos.get(i).getPrice() + tickerInfos.get(i).getPriceChange());
+            System.out.println();
+        }
+    }
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadingAllTickers loadingAllTickers = new LoadingAllTickers();
-                Thread loader = new Thread(loadingAllTickers);
-                loader.start();
-
-            }
-        });
-
-        buttonFromList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < tickerInfos.size(); i++) {
-                    System.out.println(tickerInfos.get(i).getNameTicker() + " " + tickerInfos.get(i).getNameCompany()
-                            + " " + tickerInfos.get(i).getPrice() + tickerInfos.get(i).getPriceChange());
-                }
-            }
-        });
+    public void onLoadClick(View view){
+        LoadingAllTickers loadingAllTickers = new LoadingAllTickers();
+        Thread loader = new Thread(loadingAllTickers);
+        loader.start();
     }
 
     private static class LoadingAllTickers implements Runnable {
@@ -101,7 +88,6 @@ public class MainMainActivity extends AppCompatActivity {
                 }
 
             }
-
         }
     }
 
@@ -142,6 +128,16 @@ public class MainMainActivity extends AppCompatActivity {
         }
 
     }
+
+    public void printInfoFromDB() {
+        for (int i = 0; i < countFavourites; i++) {
+            cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
+            if (cursor != null && cursor.moveToFirst()) {
+                System.out.println("Current ticker is " + Data.searchTicker(cursor.getString(1)));
+            }
+        }
+    }
+
 
     public void takeInfoFromDB() {
         for (int i = 0; i < countFavourites; i++) {
