@@ -30,7 +30,7 @@ public class MainMainActivity extends AppCompatActivity {
     private String currentTicker = Data.tickers[1];
 
 
-    private Button button;
+    private Button button, buttonFromList;
     private TextView t1, t2, t3, t4;
 
     @Override
@@ -43,7 +43,8 @@ public class MainMainActivity extends AppCompatActivity {
         t3 = findViewById(R.id.textView3);
         t4 = findViewById(R.id.textView4);
 
-        button = findViewById(R.id.sout);
+        button = findViewById(R.id.load);
+        buttonFromList = findViewById(R.id.soutFromList);
 
         tickerInfos = new ArrayList<>();
 
@@ -66,13 +67,17 @@ public class MainMainActivity extends AppCompatActivity {
                 Thread loader = new Thread(loadingAllTickers);
                 loader.start();
 
-                System.out.println("Done");
+            }
+        });
+
+        buttonFromList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 for (int i = 0; i < tickerInfos.size(); i++) {
                     System.out.println(tickerInfos.get(i).getNameTicker() + " " + tickerInfos.get(i).getNameCompany()
                             + " " + tickerInfos.get(i).getPrice() + tickerInfos.get(i).getPriceChange());
                 }
             }
-
         });
     }
 
@@ -87,7 +92,7 @@ public class MainMainActivity extends AppCompatActivity {
                 tickerGetter.loadData(ticker);
 
                 try {
-                    System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
+                  //  System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
                     MainMainActivity.tickerInfos.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(),
                             tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
 

@@ -47,15 +47,15 @@
         />
 
     <Button
-        android:id="@+id/sout"
+        android:id="@+id/load"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Vivesti vse akcii " />
+        android:text="Load data" />
 
     <Button
-        android:id="@+id/changeBtn"
+        android:id="@+id/soutFromList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Vivesti vse akcii " />
+        android:text="Vivesti vse akcii from list" />
 
 </LinearLayout>
