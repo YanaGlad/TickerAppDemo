@@ -1,15 +1,12 @@
 package com.example.tickersapp12;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.mynasaapp.R;
 import com.example.tickersapp12.Support.Data;
 import com.example.tickersapp12.Support.TickerInfo;
@@ -133,7 +130,7 @@ public class MainMainActivity extends AppCompatActivity {
         for (int i = 0; i < countFavourites; i++) {
             cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
             if (cursor != null && cursor.moveToFirst()) {
-                System.out.println("Current ticker is " + Data.searchTicker(cursor.getString(1)));
+                System.out.println("Current ticker is " +  cursor.getString(1));
             }
         }
     }
@@ -143,7 +140,7 @@ public class MainMainActivity extends AppCompatActivity {
         for (int i = 0; i < countFavourites; i++) {
             cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
             if (cursor != null && cursor.moveToFirst()) {
-                currentTicker = Data.searchTicker(cursor.getString(1));
+                currentTicker = cursor.getString(1);
                 System.out.println("Current ticker is " + currentTicker);
             }
         }

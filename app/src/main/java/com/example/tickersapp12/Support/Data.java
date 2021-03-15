@@ -22,13 +22,6 @@ public class Data {
             "ROSYY",
             "AKSJF"
     };
-
-    public static String searchTicker(String tick) {
-        for (String ticker : tickers) {
-            if (tick.equals(ticker))
-                return ticker;
-        }
-        return null;
-    }
+ 
 }
 
