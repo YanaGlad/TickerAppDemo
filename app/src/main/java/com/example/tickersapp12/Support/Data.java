@@ -22,6 +22,6 @@ public class Data {
             "ROSYY",
             "AKSJF"
     };
- 
+
 }
 
