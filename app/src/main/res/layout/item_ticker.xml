@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/sell"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"
@@ -15,7 +15,7 @@
         android:text="Продать"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintStart_toEndOf="@+id/buy"
         app:layout_constraintTop_toBottomOf="@+id/nameTicker" />
 
     <TextView
@@ -59,14 +59,14 @@
         android:layout_marginBottom="556dp"
         android:text="AAPL"
         android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintBottom_toTopOf="@+id/sell"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/fav"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/fav"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
@@ -93,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@+id/priceTicker" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buy"
         android:layout_width="0dp"
         android:layout_height="52dp"
         android:layout_marginStart="16dp"
@@ -101,8 +101,8 @@
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:text="Купить"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button3"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sell"
+        app:layout_constraintEnd_toStartOf="@+id/sell"
         app:layout_constraintStart_toStartOf="parent" />
 
 
