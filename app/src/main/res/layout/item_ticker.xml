@@ -3,107 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/sell"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="56dp"
-        android:text="Продать"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buy"
-        app:layout_constraintTop_toBottomOf="@+id/nameTicker" />
-
-    <TextView
-        android:id="@+id/companyTicker"
-        android:layout_width="271dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="28dp"
-        android:text="Apple Inc"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/priceTicker"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameTicker" />
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/priceTicker"
-        android:layout_width="0dp"
+        android:layout_width="118dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="12dp"
-        android:text="Price: 300 USD"
-        android:textSize="30sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/changeTicker"
-        app:layout_constraintEnd_toEndOf="@+id/companyTicker"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/companyTicker"
         app:layout_constraintTop_toBottomOf="@+id/companyTicker" />
 
     <TextView
-        android:id="@+id/nameTicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginLeft="144dp"
-        android:layout_marginEnd="79dp"
-        android:layout_marginRight="79dp"
-        android:layout_marginBottom="556dp"
-        android:text="AAPL"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/sell"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/companyTicker"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="2dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/priceTicker"
         app:layout_constraintEnd_toStartOf="@+id/fav"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameTicker" />
+
+    <TextView
+        android:id="@+id/changeTicker"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/priceTicker"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/priceTicker"
+        app:layout_constraintTop_toBottomOf="@+id/priceTicker" />
+
+    <TextView
+        android:id="@+id/nameTicker"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/companyTicker"
+        app:layout_constraintEnd_toEndOf="@+id/companyTicker"
+        app:layout_constraintStart_toStartOf="@+id/companyTicker"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/fav"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="23dp"
-        app:layout_constraintBottom_toTopOf="@+id/companyTicker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/nameTicker"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/changeTicker"
-        android:layout_width="153dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="477dp"
-        android:text="+0,003%"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/priceTicker" />
-
-    <Button
-        android:id="@+id/buy"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_width="43dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
-        android:text="Купить"
-        app:layout_constraintBaseline_toBaselineOf="@+id/sell"
-        app:layout_constraintEnd_toStartOf="@+id/sell"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginBottom="19dp"
+        app:layout_constraintBottom_toTopOf="@+id/priceTicker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/companyTicker"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

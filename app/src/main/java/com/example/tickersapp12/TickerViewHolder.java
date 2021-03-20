@@ -13,7 +13,7 @@ import com.example.mynasaapp.R;
 public class TickerViewHolder extends RecyclerView.ViewHolder {
 
     private TextView ticker, company, price, priceChange;
-    private Button fav, buy, sell;
+    private Button fav ;
 
     public TickerViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -22,8 +22,7 @@ public class TickerViewHolder extends RecyclerView.ViewHolder {
         company = itemView.findViewById(R.id.companyTicker);
         price = itemView.findViewById(R.id.priceTicker);
         priceChange = itemView.findViewById(R.id.changeTicker);
-        buy = itemView.findViewById(R.id.buy);
-        sell = itemView.findViewById(R.id.sell);
+
         fav = itemView.findViewById(R.id.fav);
 
     }
