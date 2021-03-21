@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.mynasaapp.R;
 import com.example.tickersapp12.Support.TickerInfo;
 
@@ -14,10 +15,10 @@ import java.util.List;
 
 public class TickerAdapter extends RecyclerView.Adapter {
 
-    private List<TickerInfo>tickerInfos;
+    private List<TickerInfo> tickerInfos;
     private Context context;
 
-    TickerAdapter(List<TickerInfo>tickerInfos, Context context){
+    TickerAdapter(List<TickerInfo> tickerInfos, Context context) {
         this.tickerInfos = tickerInfos;
         this.context = context;
 
@@ -45,4 +46,8 @@ public class TickerAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return tickerInfos.size();
     }
+
+//    public String getTickerName(@NonNull RecyclerView.ViewHolder holder, int position) {
+//        return tickerInfos.get(position).getNameTicker();
+//    }
 }

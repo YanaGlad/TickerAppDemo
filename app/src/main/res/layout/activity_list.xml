@@ -37,12 +37,14 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onStockClick"
                 android:text="Stocks"/>
 
             <Button
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onFavsClick"
                 android:text="Favourites"/>
 
         </LinearLayout>
