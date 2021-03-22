@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-        <SearchView
+        <EditText
             android:id="@+id/searchTicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -28,25 +28,31 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-             <Button
-                 android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Trade"/>
-
             <Button
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#F4CF44"
+                android:textStyle="italic"
+                android:text="Trade" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#F8E09A"
                 android:onClick="onStockClick"
-                android:text="Stocks"/>
+                android:textStyle="italic"
+                android:text="Stocks" />
 
             <Button
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#FFEED0"
                 android:onClick="onFavsClick"
-                android:text="Favourites"/>
+                android:textStyle="italic"
+                android:text="Favourites" />
 
         </LinearLayout>
 

@@ -17,16 +17,21 @@ import com.example.tickersapp12.Support.TickerInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TickerAdapter extends RecyclerView.Adapter implements Filterable {
+public class TickerAdapter extends RecyclerView.Adapter {
 
     private List<TickerInfo> tickerInfos;
     private Context context;
 
+    interface OnTickerClickListener {
+        void onTickerClick(TickerInfo tickerInfo, int position);
+    }
 
-    TickerAdapter(List<TickerInfo> tickerInfos, Context context) {
+    private final OnTickerClickListener onTickerClickListener;
+
+    TickerAdapter(List<TickerInfo> tickerInfos, Context context, OnTickerClickListener onTickerClickListener) {
         this.tickerInfos = tickerInfos;
         this.context = context;
-
+        this.onTickerClickListener = onTickerClickListener;
     }
 
     @NonNull
@@ -34,11 +39,14 @@ public class TickerAdapter extends RecyclerView.Adapter implements Filterable {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_ticker, parent, false);
+
+
         return new TickerViewHolder(view);
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         TickerViewHolder h = (TickerViewHolder) holder;
         h.setDescription(context,
                 tickerInfos.get(position).getNameTicker(),
@@ -46,7 +54,14 @@ public class TickerAdapter extends RecyclerView.Adapter implements Filterable {
                 tickerInfos.get(position).getPrice(),
                 tickerInfos.get(position).getPriceChange());
 
-        h.setStar(context,tickerInfos.get(position).getNameTicker(), (ImageButton) h.itemView.findViewById(R.id.fav));
+        h.setStar(context, tickerInfos.get(position).getNameTicker(), (ImageButton) h.itemView.findViewById(R.id.fav));
+
+        h.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTickerClickListener.onTickerClick(tickerInfos.get(position), position);
+            }
+        });
     }
 
     @Override
@@ -54,40 +69,4 @@ public class TickerAdapter extends RecyclerView.Adapter implements Filterable {
         return tickerInfos.size();
     }
 
-    private Filter tickFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<TickerInfo> filteredInfo = new ArrayList<>();
-
-            if (constraint == null || constraint.length() == 0) {
-                filteredInfo.addAll(MainMainActivity.tickerInfos);
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-
-                for (TickerInfo item : MainMainActivity.tickerInfos) {
-                    if (item.getNameTicker().toLowerCase().contains(filterPattern)) {
-                        filteredInfo.add(item);
-                    }
-                }
-            }
-            FilterResults results = new FilterResults();
-            results.values = filteredInfo;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            MainMainActivity.tickerInfos.clear();
-            MainMainActivity.tickerInfos.addAll((ArrayList) results.values);
-        }
-    };
-
-    @Override
-    public Filter getFilter() {
-        return tickFilter;
-    }
-
-//    public String getTickerName(@NonNull RecyclerView.ViewHolder holder, int position) {
-//        return tickerInfos.get(position).getNameTicker();
-//    }
 }

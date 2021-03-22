@@ -35,31 +35,6 @@ public class TickerViewHolder extends RecyclerView.ViewHolder {
         priceChange = itemView.findViewById(R.id.changeTicker);
 
         fav = itemView.findViewById(R.id.fav);
-
-//        System.out.println("KONSTRUKTOR");
-//
-//        System.out.println("Count favs " + countFavourites);
-
-//        for (int i = 0; i < countFavourites; i++) {
-//
-//            cursor = MainMainActivity.featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
-//            if(cursor == null)
-//                System.out.println("N U L L ");
-//
-//
-//            if (cursor != null && cursor.moveToFirst()) {
-//                System.out.println("TEST TEST ET SGGERGTFV " +  cursor.getString(1).toLowerCase() + "  " + ticker.getText().toString());
-//                if (cursor.getString(1).equals(ticker.getText().toString())) {
-//                    System.out.println("Searching db " + cursor.getString(1).toLowerCase() + " and got: " + ticker.getText().toString().toLowerCase());
-//                    favourite = true;
-//                }
-//            }
-//        }
-
-//        System.out.println("Ticker is " + ticker.getText().toString() + "  " + favourite);
-
-        //  if(favourite)
-        //   fav.setImageResource(R.drawable.star);
         fav.setImageResource(R.drawable.nasa);
 
         fav.setOnClickListener(new View.OnClickListener() {

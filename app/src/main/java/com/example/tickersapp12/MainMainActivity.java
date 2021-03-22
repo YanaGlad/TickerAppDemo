@@ -9,8 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.mynasaapp.R;
 import com.example.tickersapp12.Support.Data;
@@ -28,24 +27,41 @@ public class MainMainActivity extends AppCompatActivity {
     public static ArrayList<TickerInfo> tickerInfos, favTickers;
     public static int countFavourites = 0;
     private RecyclerView recyclerView;
+    private TickerAdapter.OnTickerClickListener onTickerClickListener;
 
     public void onFavsClick(View view) {
         updateFavTickers();
-        recyclerView.setAdapter(new TickerAdapter(favTickers, getApplicationContext()));
 
-        LoadingAllTickers loadingAllTickers = new LoadingAllTickers();
-        Thread loader = new Thread(loadingAllTickers);
-        loader.start();
-        try {
-            loader.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (favTickers.size() < countFavourites) {
+            System.out.println("CHECK " + favTickers.size() + " " + countFavourites);
+            continue;
         }
+
+        recyclerView.setAdapter(new TickerAdapter(favTickers, getApplicationContext(), onTickerClickListener));
 
     }
 
     public void onStockClick(View view) {
-        recyclerView.setAdapter(new TickerAdapter(tickerInfos, getApplicationContext()));
+        tickerInfos.clear();
+
+        for (int i = 0; i < Data.tickers.length; i++) {
+            LoadingOneTicker loadingOneTicker = new LoadingOneTicker(i);
+            new Thread(loadingOneTicker).start();
+        }
+
+        while (tickerInfos.size() != Data.tickers.length) {
+            System.out.println("Wait... " + tickerInfos.size() + " " + Data.tickers.length);
+        }
+
+        onTickerClickListener = new TickerAdapter.OnTickerClickListener() {
+            @Override
+            public void onTickerClick(TickerInfo tickerInfo, int position) {
+                Toast.makeText(getApplicationContext(), "Ticker: " + tickerInfo.getNameTicker(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        recyclerView.setAdapter(new TickerAdapter(tickerInfos, getApplicationContext(), onTickerClickListener));
 
     }
 
@@ -55,7 +71,6 @@ public class MainMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         recyclerView = findViewById(R.id.recycle);
-        SearchView searchView = findViewById(R.id.searchTicker);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(false);
@@ -63,44 +78,44 @@ public class MainMainActivity extends AppCompatActivity {
         tickerInfos = new ArrayList<>();
         favTickers = new ArrayList<>();
 
-        LoadingAllTickers loadingAllTickers = new LoadingAllTickers();
-        Thread loader = new Thread(loadingAllTickers);
-        loader.start();
-        try {
-            loader.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int i = 0; i < Data.tickers.length; i++) {
+            LoadingOneTicker loadingOneTicker = new LoadingOneTicker(i);
+            new Thread(loadingOneTicker).start();
         }
 
-        recyclerView.setAdapter(new TickerAdapter(tickerInfos, getApplicationContext()));
+        while (tickerInfos.size() != Data.tickers.length)
+            continue;
+
+        recyclerView.setAdapter(new TickerAdapter(tickerInfos, getApplicationContext(), onTickerClickListener));
 
 
     }
 
-    private class LoadingAllTickers implements Runnable {
+    private class LoadingOneTicker implements Runnable {
+        private int index;
+
+        public LoadingOneTicker(int index) {
+            this.index = index;
+        }
 
         @Override
         public void run() {
-            //    tickerInfos.clear();
+            String ticker = Data.tickers[index];
+            TickerGetter tickerGetter = new TickerGetter();
+            tickerGetter.loadData(ticker);
 
-            for (int i = 0; i < Data.tickers.length; i++) {
-                String ticker = Data.tickers[i];
+            try {
+                System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
+                MainMainActivity.tickerInfos.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(),
+                        tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
 
-                TickerGetter tickerGetter = new TickerGetter();
-                tickerGetter.loadData(ticker);
-
-                try {
-                    System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
-                    MainMainActivity.tickerInfos.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(),
-                            tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
         }
     }
+
 
     private static class LoadingFavTicker implements Runnable {
         private String ticker;
@@ -112,34 +127,30 @@ public class MainMainActivity extends AppCompatActivity {
         @Override
         public void run() {
 
-            System.out.println("Going to load fav " + ticker);
             TickerGetter tickerGetter = new TickerGetter();
             tickerGetter.loadData(ticker);
-//
-//            boolean check = true;
-//
-//            for (int i = 0; i < favTickers.size(); i++) {
-//                if (favTickers.get(i).getNameTicker().equals(ticker))
-//                    check = false;
-//            }
 
-    ///        if (check) {
-            try {
-                favTickers.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(), tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
+            boolean check = true;
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+            for (int i = 0; i < favTickers.size(); i++)
+                if (favTickers.get(i).getNameTicker().equals(ticker))
+                    check = false;
+
+
+            if (check) {
+                try {
+                    favTickers.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(), tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-            //    }
         }
     }
 
     public static void addTickerToDB(String tickerName) {
         countFavourites++;
-        System.out.println("ADD TICKER TO DB " + tickerName + " with id " + countFavourites);
         featureDB.execSQL("INSERT into feature (_id, ticker) VALUES (" + countFavourites + "," + "'" + tickerName + "'" + ")");
-
-
     }
 
     public static void removeTickerFromDB(String tickerName) {
@@ -155,10 +166,10 @@ public class MainMainActivity extends AppCompatActivity {
     }
 
     public static void updateFavTickers() {
+        favTickers.clear();
 
         for (int i = 0; i < countFavourites; i++) {
             cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
-            System.out.println("Get info from db to load " + cursor.getString(1));
 
             if (cursor != null && cursor.moveToFirst()) {
                 LoadingFavTicker loadingFavTicker = new LoadingFavTicker(cursor.getString(1));
@@ -195,8 +206,16 @@ public class MainMainActivity extends AppCompatActivity {
         DB_PATH = this.getFilesDir().getPath() + "trade.db";
         tradeDB = getBaseContext().openOrCreateDatabase("trade.db", MODE_PRIVATE, null);
         tradeDB.execSQL("DROP TABLE IF EXISTS trade");
-        tradeDB.execSQL("CREATE TABLE IF NOT EXISTS trade (_id INTEGER, ticker TEXT, buyPrice REAL, sellPrice REAL)");
+        tradeDB.execSQL("CREATE TABLE IF NOT EXISTS trade (_id INTEGER, ticker TEXT, buyPrice REAL, sellPrice REAL, lot INTEGER)");
 
+//
+//        int ind = 0;
+//        while ((featureDB.rawQuery("SELECT * from feature WHERE _id = " + (ind + 1), null)) != null) {
+//            cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (ind + 1), null);
+//            if (cursor != null && cursor.moveToFirst()) {
+//                System.out.println("DB: " + cursor.getString(1));
+//            }
+//        }
 
         printInfoFromDB();
     }
