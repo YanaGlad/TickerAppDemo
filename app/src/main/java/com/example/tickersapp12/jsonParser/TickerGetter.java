@@ -59,7 +59,7 @@ public class TickerGetter {
     }
 
     public String getNameByTicker() throws JSONException {
-        return jsonObject.getString("longName");
+         return jsonObject.getString("longName");
     }
 
     public String getPriceByTicker() throws JSONException {

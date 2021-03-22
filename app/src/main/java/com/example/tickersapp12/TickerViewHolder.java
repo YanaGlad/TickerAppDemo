@@ -58,9 +58,9 @@ public class TickerViewHolder extends RecyclerView.ViewHolder {
 
 //        System.out.println("Ticker is " + ticker.getText().toString() + "  " + favourite);
 
-        if(favourite)
-        fav.setImageResource(R.drawable.star);
-        else fav.setImageResource(R.drawable.nasa);
+        //  if(favourite)
+        //   fav.setImageResource(R.drawable.star);
+        fav.setImageResource(R.drawable.nasa);
 
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,25 +82,19 @@ public class TickerViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    void setStar(Context context, String ticker, ImageButton imageButton){
+    void setStar(Context context, String ticker, ImageButton imageButton) {
         boolean added = false;
 
         for (int i = 0; i < countFavourites; i++) {
-
             Cursor cursor = MainMainActivity.featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
-
-            if (cursor == null)
-                System.out.println("N U L L ");
-
-
             if (cursor != null && cursor.moveToFirst()) {
                 if (cursor.getString(1).equals(ticker)) {
-                    System.out.println("Searching db " + cursor.getString(1).toLowerCase() + " and got: " + ticker);
+                    System.out.println("Searching db " + cursor.getString(1) + " and got: " + ticker);
                     added = true;
                 }
             }
         }
-        if(added)
+        if (added)
             imageButton.setImageResource(R.drawable.star);
     }
 

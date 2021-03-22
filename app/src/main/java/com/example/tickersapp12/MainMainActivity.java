@@ -26,7 +26,7 @@ public class MainMainActivity extends AppCompatActivity {
     public static Cursor cursor, cursorCheck;
     public static String DB_PATH, DB_PATH_TRADE;
     public static ArrayList<TickerInfo> tickerInfos, favTickers;
-    public static int countFavourites = 3;
+    public static int countFavourites = 0;
     private RecyclerView recyclerView;
 
     public void onFavsClick(View view) {
@@ -36,6 +36,11 @@ public class MainMainActivity extends AppCompatActivity {
         LoadingAllTickers loadingAllTickers = new LoadingAllTickers();
         Thread loader = new Thread(loadingAllTickers);
         loader.start();
+        try {
+            loader.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -68,17 +73,7 @@ public class MainMainActivity extends AppCompatActivity {
         }
 
         recyclerView.setAdapter(new TickerAdapter(tickerInfos, getApplicationContext()));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
 
     }
 
@@ -86,7 +81,7 @@ public class MainMainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            tickerInfos.clear();
+            //    tickerInfos.clear();
 
             for (int i = 0; i < Data.tickers.length; i++) {
                 String ticker = Data.tickers[i];
@@ -95,7 +90,6 @@ public class MainMainActivity extends AppCompatActivity {
                 tickerGetter.loadData(ticker);
 
                 try {
-
                     System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
                     MainMainActivity.tickerInfos.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(),
                             tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
@@ -118,30 +112,34 @@ public class MainMainActivity extends AppCompatActivity {
         @Override
         public void run() {
 
+            System.out.println("Going to load fav " + ticker);
             TickerGetter tickerGetter = new TickerGetter();
             tickerGetter.loadData(ticker);
+//
+//            boolean check = true;
+//
+//            for (int i = 0; i < favTickers.size(); i++) {
+//                if (favTickers.get(i).getNameTicker().equals(ticker))
+//                    check = false;
+//            }
 
-            boolean check = true;
+    ///        if (check) {
+            try {
+                favTickers.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(), tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
 
-            for (int i = 0; i < favTickers.size(); i++) {
-                if(favTickers.get(i).getNameTicker().equals(ticker))
-                    check = false;
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-            if(check) {
-                try {
-                    favTickers.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(), tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+            //    }
         }
     }
 
     public static void addTickerToDB(String tickerName) {
         countFavourites++;
+        System.out.println("ADD TICKER TO DB " + tickerName + " with id " + countFavourites);
         featureDB.execSQL("INSERT into feature (_id, ticker) VALUES (" + countFavourites + "," + "'" + tickerName + "'" + ")");
+
+
     }
 
     public static void removeTickerFromDB(String tickerName) {
@@ -157,10 +155,12 @@ public class MainMainActivity extends AppCompatActivity {
     }
 
     public static void updateFavTickers() {
+
         for (int i = 0; i < countFavourites; i++) {
             cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
+            System.out.println("Get info from db to load " + cursor.getString(1));
 
-            if (cursor != null && cursor.moveToFirst() ) {
+            if (cursor != null && cursor.moveToFirst()) {
                 LoadingFavTicker loadingFavTicker = new LoadingFavTicker(cursor.getString(1));
                 Thread loader = new Thread(loadingFavTicker);
                 loader.start();
@@ -174,12 +174,11 @@ public class MainMainActivity extends AppCompatActivity {
     }
 
 
-    public void takeInfoFromDB() {
+    public void printInfoFromDB() {
         for (int i = 0; i < countFavourites; i++) {
             cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
             if (cursor != null && cursor.moveToFirst()) {
-                //     currentTicker = cursor.getString(1);
-                //   System.out.println("Current ticker is " + currentTicker);
+                System.out.println("DB: " + cursor.getString(1));
             }
         }
     }
@@ -190,17 +189,15 @@ public class MainMainActivity extends AppCompatActivity {
         tickerInfos = new ArrayList<>();
         DB_PATH = this.getFilesDir().getPath() + "feature.db";
         featureDB = getBaseContext().openOrCreateDatabase("feature.db", MODE_PRIVATE, null);
-        //featureDB.execSQL("DROP TABLE IF EXISTS feature");
+        featureDB.execSQL("DROP TABLE IF EXISTS feature");
         featureDB.execSQL("CREATE TABLE IF NOT EXISTS feature (_id INTEGER, ticker TEXT)");
 
         DB_PATH = this.getFilesDir().getPath() + "trade.db";
-        featureDB = getBaseContext().openOrCreateDatabase("trade.db", MODE_PRIVATE, null);
-        //featureDB.execSQL("DROP TABLE IF EXISTS feature");
-        featureDB.execSQL("CREATE TABLE IF NOT EXISTS feature (_id INTEGER, ticker TEXT, buyPrice REAL, sellPrice REAL)");
+        tradeDB = getBaseContext().openOrCreateDatabase("trade.db", MODE_PRIVATE, null);
+        tradeDB.execSQL("DROP TABLE IF EXISTS trade");
+        tradeDB.execSQL("CREATE TABLE IF NOT EXISTS trade (_id INTEGER, ticker TEXT, buyPrice REAL, sellPrice REAL)");
 
 
-
-        countFavourites++;
-
+        printInfoFromDB();
     }
 }
