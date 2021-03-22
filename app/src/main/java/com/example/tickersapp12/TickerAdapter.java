@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ public class TickerAdapter extends RecyclerView.Adapter implements Filterable {
 
     private List<TickerInfo> tickerInfos;
     private Context context;
+
 
     TickerAdapter(List<TickerInfo> tickerInfos, Context context) {
         this.tickerInfos = tickerInfos;
@@ -43,6 +45,8 @@ public class TickerAdapter extends RecyclerView.Adapter implements Filterable {
                 tickerInfos.get(position).getNameCompany(),
                 tickerInfos.get(position).getPrice(),
                 tickerInfos.get(position).getPriceChange());
+
+        h.setStar(context,tickerInfos.get(position).getNameTicker(), (ImageButton) h.itemView.findViewById(R.id.fav));
     }
 
     @Override

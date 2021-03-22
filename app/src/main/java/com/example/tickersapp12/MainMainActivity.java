@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SearchView;
 
@@ -23,14 +22,12 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 public class MainMainActivity extends AppCompatActivity {
-    public static SQLiteDatabase featureDB;
+    public static SQLiteDatabase featureDB, tradeDB;
     public static Cursor cursor, cursorCheck;
-    public static String DB_PATH;
+    public static String DB_PATH, DB_PATH_TRADE;
     public static ArrayList<TickerInfo> tickerInfos, favTickers;
-    public static int countFavourites = 0;
+    public static int countFavourites = 3;
     private RecyclerView recyclerView;
-    private SearchView searchView;
-    private TickerAdapter tickerAdapter;
 
     public void onFavsClick(View view) {
         updateFavTickers();
@@ -53,12 +50,10 @@ public class MainMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         recyclerView = findViewById(R.id.recycle);
-        searchView = findViewById(R.id.searchTicker);
+        SearchView searchView = findViewById(R.id.searchTicker);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(false);
-//
-//        tickerAdapter = new TickerAdapter(tickerInfos, getApplicationContext());
 
         tickerInfos = new ArrayList<>();
         favTickers = new ArrayList<>();
@@ -71,22 +66,22 @@ public class MainMainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                tickerAdapter.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
+
+        recyclerView.setAdapter(new TickerAdapter(tickerInfos, getApplicationContext()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
     }
 
-    private  short l = 9000;
     private class LoadingAllTickers implements Runnable {
 
         @Override
@@ -100,9 +95,7 @@ public class MainMainActivity extends AppCompatActivity {
                 tickerGetter.loadData(ticker);
 
                 try {
-                    LoadingAllTickers loadingAllTickers = new LoadingAllTickers();
-                    loadingAllTickers.run();
-                    l*=100;
+
                     System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
                     MainMainActivity.tickerInfos.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(),
                             tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
@@ -131,11 +124,11 @@ public class MainMainActivity extends AppCompatActivity {
             boolean check = true;
 
             for (int i = 0; i < favTickers.size(); i++) {
-                if (favTickers.get(i).getNameTicker().equals(ticker))
+                if(favTickers.get(i).getNameTicker().equals(ticker))
                     check = false;
             }
 
-            if (check) {
+            if(check) {
                 try {
                     favTickers.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(), tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
 
@@ -167,9 +160,7 @@ public class MainMainActivity extends AppCompatActivity {
         for (int i = 0; i < countFavourites; i++) {
             cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
 
-            boolean check = true;
-
-            if (cursor != null && cursor.moveToFirst() && check) {
+            if (cursor != null && cursor.moveToFirst() ) {
                 LoadingFavTicker loadingFavTicker = new LoadingFavTicker(cursor.getString(1));
                 Thread loader = new Thread(loadingFavTicker);
                 loader.start();
@@ -199,8 +190,16 @@ public class MainMainActivity extends AppCompatActivity {
         tickerInfos = new ArrayList<>();
         DB_PATH = this.getFilesDir().getPath() + "feature.db";
         featureDB = getBaseContext().openOrCreateDatabase("feature.db", MODE_PRIVATE, null);
-        featureDB.execSQL("DROP TABLE IF EXISTS feature");
+        //featureDB.execSQL("DROP TABLE IF EXISTS feature");
         featureDB.execSQL("CREATE TABLE IF NOT EXISTS feature (_id INTEGER, ticker TEXT)");
+
+        DB_PATH = this.getFilesDir().getPath() + "trade.db";
+        featureDB = getBaseContext().openOrCreateDatabase("trade.db", MODE_PRIVATE, null);
+        //featureDB.execSQL("DROP TABLE IF EXISTS feature");
+        featureDB.execSQL("CREATE TABLE IF NOT EXISTS feature (_id INTEGER, ticker TEXT, buyPrice REAL, sellPrice REAL)");
+
+
+
         countFavourites++;
 
     }

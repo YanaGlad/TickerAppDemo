@@ -54,7 +54,6 @@
 
     <ImageButton
         android:id="@+id/fav"
-        android:src="@drawable/star"
         android:layout_width="43dp"
         android:layout_height="45dp"
         android:layout_marginTop="20dp"
