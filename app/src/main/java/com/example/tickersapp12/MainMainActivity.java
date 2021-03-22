@@ -9,7 +9,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.SearchView;
 
 import com.example.mynasaapp.R;
 import com.example.tickersapp12.Support.Data;
@@ -27,7 +29,8 @@ public class MainMainActivity extends AppCompatActivity {
     public static ArrayList<TickerInfo> tickerInfos, favTickers;
     public static int countFavourites = 0;
     private RecyclerView recyclerView;
-    private Button favourites;
+    private SearchView searchView;
+    private TickerAdapter tickerAdapter;
 
     public void onFavsClick(View view) {
         updateFavTickers();
@@ -41,7 +44,7 @@ public class MainMainActivity extends AppCompatActivity {
 
     public void onStockClick(View view) {
         recyclerView.setAdapter(new TickerAdapter(tickerInfos, getApplicationContext()));
-        
+
     }
 
     @Override
@@ -50,8 +53,12 @@ public class MainMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         recyclerView = findViewById(R.id.recycle);
+        searchView = findViewById(R.id.searchTicker);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(false);
+//
+//        tickerAdapter = new TickerAdapter(tickerInfos, getApplicationContext());
 
         tickerInfos = new ArrayList<>();
         favTickers = new ArrayList<>();
@@ -64,11 +71,22 @@ public class MainMainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        recyclerView.setAdapter(new TickerAdapter(tickerInfos, getApplicationContext()));
-
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                tickerAdapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
     }
 
+    private  short l = 9000;
     private class LoadingAllTickers implements Runnable {
 
         @Override
@@ -82,7 +100,9 @@ public class MainMainActivity extends AppCompatActivity {
                 tickerGetter.loadData(ticker);
 
                 try {
-
+                    LoadingAllTickers loadingAllTickers = new LoadingAllTickers();
+                    loadingAllTickers.run();
+                    l*=100;
                     System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
                     MainMainActivity.tickerInfos.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(),
                             tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
@@ -96,7 +116,6 @@ public class MainMainActivity extends AppCompatActivity {
     }
 
     private static class LoadingFavTicker implements Runnable {
-
         private String ticker;
 
         public LoadingFavTicker(String ticker) {
@@ -112,11 +131,11 @@ public class MainMainActivity extends AppCompatActivity {
             boolean check = true;
 
             for (int i = 0; i < favTickers.size(); i++) {
-                if(favTickers.get(i).getNameTicker().equals(ticker))
+                if (favTickers.get(i).getNameTicker().equals(ticker))
                     check = false;
             }
 
-            if(check) {
+            if (check) {
                 try {
                     favTickers.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(), tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
 
@@ -149,16 +168,6 @@ public class MainMainActivity extends AppCompatActivity {
             cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
 
             boolean check = true;
-
-
-//            for (int j = i + 1; j < countFavourites; j++) {
-//                cursorCheck = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (j + 1), null);
-//                if (cursorCheck != null && cursorCheck.moveToFirst()) {
-//                    if (cursorCheck.getString(1).equals(cursor.getString(1))) {
-//                        check = false;
-//                    }
-//                }
-//            }
 
             if (cursor != null && cursor.moveToFirst() && check) {
                 LoadingFavTicker loadingFavTicker = new LoadingFavTicker(cursor.getString(1));

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,9 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mynasaapp.R;
 import com.example.tickersapp12.Support.TickerInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TickerAdapter extends RecyclerView.Adapter {
+public class TickerAdapter extends RecyclerView.Adapter implements Filterable {
 
     private List<TickerInfo> tickerInfos;
     private Context context;
@@ -45,6 +48,39 @@ public class TickerAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return tickerInfos.size();
+    }
+
+    private Filter tickFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<TickerInfo> filteredInfo = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredInfo.addAll(MainMainActivity.tickerInfos);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (TickerInfo item : MainMainActivity.tickerInfos) {
+                    if (item.getNameTicker().toLowerCase().contains(filterPattern)) {
+                        filteredInfo.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredInfo;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            MainMainActivity.tickerInfos.clear();
+            MainMainActivity.tickerInfos.addAll((ArrayList) results.values);
+        }
+    };
+
+    @Override
+    public Filter getFilter() {
+        return tickFilter;
     }
 
 //    public String getTickerName(@NonNull RecyclerView.ViewHolder holder, int position) {

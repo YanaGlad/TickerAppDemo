@@ -4,17 +4,26 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mynasaapp.R;
+import com.example.tickersapp12.Support.TickerInfo;
+
+import java.util.ArrayList;
+
+import static com.example.tickersapp12.MainMainActivity.countFavourites;
 
 public class TickerViewHolder extends RecyclerView.ViewHolder {
 
     private TextView ticker, company, price, priceChange;
-    private Button fav;
+    private ImageButton fav;
+
 
     public TickerViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -26,12 +35,25 @@ public class TickerViewHolder extends RecyclerView.ViewHolder {
 
         fav = itemView.findViewById(R.id.fav);
 
+        boolean favourite = false;
+
+        for (int i = 0; i < countFavourites; i++) {
+            MainMainActivity.cursor = MainMainActivity.featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
+            if (MainMainActivity.cursor != null && MainMainActivity.cursor.moveToFirst()) {
+                if (MainMainActivity.cursor.getString(1).equals(ticker.getText().toString()))
+                    favourite = true;
+            }
+        }
+        if(favourite)
+            fav.setImageResource(R.drawable.star);
+        else fav.setImageResource(R.drawable.nasa);
+
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fav.setImageResource(R.drawable.star);
                 MainMainActivity.addTickerToDB(ticker.getText().toString());
                 MainMainActivity.updateFavTickers();
-               // System.out.println(ticker.getText() + " " + company.getText() + " FAVS");
             }
         });
 
@@ -51,8 +73,11 @@ public class TickerViewHolder extends RecyclerView.ViewHolder {
         this.price.setText(price + " USD");
         this.priceChange.setText(priceChange);
 
-        if (Double.parseDouble(priceChange.substring(0, priceChange.length()-1)) > 0)
+        if (Double.parseDouble(priceChange.substring(0, priceChange.length() - 1)) > 0)
             this.priceChange.setTextColor(Color.GREEN);
         else this.priceChange.setTextColor(Color.RED);
     }
+
+
+
 }
