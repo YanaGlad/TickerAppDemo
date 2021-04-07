@@ -4,9 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -14,9 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mynasaapp.R;
-import com.example.tickersapp12.Support.TickerInfo;
-
-import java.util.ArrayList;
 
 import static com.example.tickersapp12.MainMainActivity.countFavourites;
 

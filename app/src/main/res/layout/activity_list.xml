@@ -3,17 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="13">
 
         <EditText
+            android:layout_weight="1"
             android:id="@+id/searchTicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
 
         <ScrollView
+            android:layout_weight="11"
             android:layout_width="match_parent"
-            android:layout_height="400dp">
+            android:layout_height="570dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycle"
@@ -23,6 +26,7 @@
         </ScrollView>
 
         <LinearLayout
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

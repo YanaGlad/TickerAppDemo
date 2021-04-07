@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nasa Api Application</string>
+    <string name="app_name">GladTrade</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -9,4 +9,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sell">Sell</string>
+    <string name="lot">Lot:</string>
+    <string name="plus">+</string>
+    <string name="owning">Owning:</string>
+    <string name="buy">Buy</string>
+    <string name="current_market_price">Current market price:</string>
+    <string name="minus">-</string>
 </resources>
