@@ -31,9 +31,18 @@ public class MainMainActivity extends AppCompatActivity {
 
     public static int threadCount = 0;
     public static int countFavourites = 0;
+    public static int countTrade = 0;
 
     private RecyclerView recyclerView;
     private TickerAdapter.OnTickerClickListener onTickerClickListener;
+
+    public void onTradeClick(View view) {
+        updateTradeInfo();
+
+        //trade adapter
+        recyclerView.setAdapter(new TickerAdapter(favTickers, getApplicationContext(), onTickerClickListener));
+
+    }
 
     public void onFavsClick(View view) {
         updateFavTickers();
@@ -95,10 +104,9 @@ public class MainMainActivity extends AppCompatActivity {
         for (int i = 0; i < Data.tickers.length; i++) {
             LoadingOneTicker loadingOneTicker = new LoadingOneTicker(i);
             new Thread(loadingOneTicker).start();
-            System.out.println("Active threads: " + threadCount);
         }
 
-        while (tickerInfos.size() != Data.tickers.length);
+        while (tickerInfos.size() != Data.tickers.length) ;
 
         recyclerView.setAdapter(new TickerAdapter(tickerInfos, getApplicationContext(), onTickerClickListener));
 
@@ -111,7 +119,6 @@ public class MainMainActivity extends AppCompatActivity {
         public LoadingOneTicker(int index) {
             this.index = index;
             threadCount++;
-            System.out.println("Thread " + index + " started ");
         }
 
         @Override
@@ -121,15 +128,15 @@ public class MainMainActivity extends AppCompatActivity {
             tickerGetter.loadData(ticker);
 
             try {
-            //    System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
+                //    System.out.println("Adding " + ticker + " " + tickerGetter.getNameByTicker() + " " + tickerGetter.getChangePercent());
                 MainMainActivity.tickerInfos.add(new TickerInfo(ticker, tickerGetter.getNameByTicker(),
                         tickerGetter.getPriceByTicker(), tickerGetter.getChangePercent()));
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-          //  System.out.println("Finishing thread " + index);
-         }
+            //  System.out.println("Finishing thread " + index);
+        }
     }
 
 
@@ -169,6 +176,12 @@ public class MainMainActivity extends AppCompatActivity {
         featureDB.execSQL("INSERT into feature (_id, ticker) VALUES (" + countFavourites + "," + "'" + tickerName + "'" + ")");
     }
 
+    public static void addTradeToDB(String tickerName, double buyPrice, double sellPrice, int lot) {
+        countTrade++;
+        featureDB.execSQL("INSERT into trade (_id INTEGER, ticker TEXT, buyPrice REAL, sellPrice REAL, lot INTEGER) " +
+                "VALUES (" + countTrade + "," + "'" + tickerName + "', "+ buyPrice + "," + sellPrice + "," + lot + ")");
+    }
+
     public static void removeTickerFromDB(String tickerName) {
         featureDB.execSQL("DELETE * from feature WHERE ticker = " + tickerName);
         countFavourites--;
@@ -203,10 +216,10 @@ public class MainMainActivity extends AppCompatActivity {
     public static void updateTradeInfo() {
         tradeInfos.clear();
 
-        for (int i = 0; i < countFavourites; i++) {
-            cursor = featureDB.rawQuery("SELECT * from trade WHERE _id = " + (i + 1), null);
+        for (int i = 0; i < countTrade; i++) {
+            cursor = tradeDB.rawQuery("SELECT * from trade WHERE _id = " + (i + 1), null);
             if (cursor != null && cursor.moveToFirst()) {
-                System.out.println("Buy price: " + cursor.getDouble(2) + " ticker: " + cursor.getString(1));
+               tradeInfos.add(new TradeInfo(cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getInt(4)));
             }
         }
     }

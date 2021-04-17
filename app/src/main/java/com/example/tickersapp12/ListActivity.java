@@ -14,7 +14,7 @@ public class ListActivity extends AppCompatActivity {
 
     private TextView ticker, company, price, change, owning, lotCount;
     private FloatingActionButton exit;
-    private Button plus, minus;
+    private Button plus, minus, buy, sell;
     private static int countLots;
 
     @Override
@@ -31,9 +31,10 @@ public class ListActivity extends AppCompatActivity {
         plus = findViewById(R.id.plusMore);
         minus = findViewById(R.id.minusMore);
         lotCount = findViewById(R.id.lotCount);
+        buy = findViewById(R.id.buyMore);
+        sell = findViewById(R.id.sellMore);
 
         countLots = Integer.parseInt(lotCount.getText().toString());
-
 
         Bundle arguments = getIntent().getExtras();
 
@@ -49,14 +50,9 @@ public class ListActivity extends AppCompatActivity {
 
 
         this.ticker.setText(tickerS);
-        this.company.setText(companyS);
+        this.company.setText(company.getText().toString() + " " + companyS);
         this.price.setText(price.getText().toString() + " " + priceS);
         this.change.setText(changeS);
-
-//
-//        for (int i = 0; i < MainMainActivity.tradeInfos.size(); i++) {
-//
-//        }
 
 
         exit.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +75,13 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 countLots--;
                 lotCount.setText(String.valueOf(countLots));
+            }
+        });
+
+        buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainMainActivity.addTradeToDB(String.valueOf(ticker.getText().toString()), Double.parseDouble(price.getText().toString()), 0.0, countLots);
             }
         });
     }
