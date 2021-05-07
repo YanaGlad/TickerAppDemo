@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.mynasaapp.R;
 import com.example.tickersapp12.Support.Data;
@@ -35,12 +34,13 @@ public class MainMainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TickerAdapter.OnTickerClickListener onTickerClickListener;
+    private TradeAdapter.OnTradeClickListener onTradeClickListener;
 
     public void onTradeClick(View view) {
         updateTradeInfo();
 
         //trade adapter
-        recyclerView.setAdapter(new TickerAdapter(favTickers, getApplicationContext(), onTickerClickListener));
+        recyclerView.setAdapter(new TradeAdapter(tradeInfos, getApplicationContext(), onTradeClickListener));
 
     }
 
@@ -84,6 +84,7 @@ public class MainMainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(false);
 
         tickerInfos = new ArrayList<>();
+        tradeInfos = new ArrayList<>();
         favTickers = new ArrayList<>();
 
 
@@ -96,6 +97,13 @@ public class MainMainActivity extends AppCompatActivity {
                 intent.putExtra("price", tickerInfo.getPrice());
                 intent.putExtra("change", tickerInfo.getPriceChange());
                 startActivity(intent);
+
+            }
+        };
+
+        onTradeClickListener = new TradeAdapter.OnTradeClickListener() {
+            @Override
+            public void onTickerClick(TradeInfo tradeInfo, int position) {
 
             }
         };
@@ -178,8 +186,9 @@ public class MainMainActivity extends AppCompatActivity {
 
     public static void addTradeToDB(String tickerName, double buyPrice, double sellPrice, int lot) {
         countTrade++;
-        featureDB.execSQL("INSERT into trade (_id INTEGER, ticker TEXT, buyPrice REAL, sellPrice REAL, lot INTEGER) " +
-                "VALUES (" + countTrade + "," + "'" + tickerName + "', "+ buyPrice + "," + sellPrice + "," + lot + ")");
+        tradeDB.execSQL("INSERT into trade (_id , ticker , buyPrice , sellPrice , lot ) " +
+                "VALUES (" + countTrade + "," + "'" + tickerName + "', " + buyPrice + "," + sellPrice + "," + lot + ")");
+        System.out.println("ADDED");
     }
 
     public static void removeTickerFromDB(String tickerName) {
@@ -219,17 +228,26 @@ public class MainMainActivity extends AppCompatActivity {
         for (int i = 0; i < countTrade; i++) {
             cursor = tradeDB.rawQuery("SELECT * from trade WHERE _id = " + (i + 1), null);
             if (cursor != null && cursor.moveToFirst()) {
-               tradeInfos.add(new TradeInfo(cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getInt(4)));
+                tradeInfos.add(new TradeInfo(cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getInt(4)));
             }
         }
     }
 
 
-    public void printInfoFromDB() {
+    public void printInfoFromFeatureDB() {
         for (int i = 0; i < countFavourites; i++) {
             cursor = featureDB.rawQuery("SELECT * from feature WHERE _id = " + (i + 1), null);
             if (cursor != null && cursor.moveToFirst()) {
                 System.out.println("DB: " + cursor.getString(1));
+            }
+        }
+    }
+
+    public void printInfoFromTradeDB() {
+        for (int i = 0; i < countTrade; i++) {
+            cursor = tradeDB.rawQuery("SELECT * from trade WHERE _id = " + (i + 1), null);
+            if (cursor != null && cursor.moveToFirst()) {
+                System.out.println("DB: " + cursor.getString(1) + " " + cursor.getDouble(2) + " " + cursor.getDouble(3));
             }
         }
     }
@@ -240,14 +258,14 @@ public class MainMainActivity extends AppCompatActivity {
         tickerInfos = new ArrayList<>();
         DB_PATH = this.getFilesDir().getPath() + "feature.db";
         featureDB = getBaseContext().openOrCreateDatabase("feature.db", MODE_PRIVATE, null);
-        featureDB.execSQL("DROP TABLE IF EXISTS feature");
+        //featureDB.execSQL("DROP TABLE IF EXISTS feature");
         featureDB.execSQL("CREATE TABLE IF NOT EXISTS feature (_id INTEGER, ticker TEXT)");
 
         DB_PATH = this.getFilesDir().getPath() + "trade.db";
         tradeDB = getBaseContext().openOrCreateDatabase("trade.db", MODE_PRIVATE, null);
-        tradeDB.execSQL("DROP TABLE IF EXISTS trade");
+        //tradeDB.execSQL("DROP TABLE IF EXISTS trade");
         tradeDB.execSQL("CREATE TABLE IF NOT EXISTS trade (_id INTEGER, ticker TEXT, buyPrice REAL, sellPrice REAL, lot INTEGER)");
-
+        System.out.println("DONE");
 //
 //        int ind = 0;
 //        while ((featureDB.rawQuery("SELECT * from feature WHERE _id = " + (ind + 1), null)) != null) {
@@ -257,6 +275,7 @@ public class MainMainActivity extends AppCompatActivity {
 //            }
 //        }
 
-        printInfoFromDB();
+        printInfoFromFeatureDB();
+        printInfoFromTradeDB();
     }
 }

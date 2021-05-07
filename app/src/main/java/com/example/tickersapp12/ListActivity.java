@@ -81,7 +81,8 @@ public class ListActivity extends AppCompatActivity {
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainMainActivity.addTradeToDB(String.valueOf(ticker.getText().toString()), Double.parseDouble(price.getText().toString()), 0.0, countLots);
+                System.out.println("BOUGHT");
+                MainMainActivity.addTradeToDB(String.valueOf(ticker.getText().toString()), Double.parseDouble(price.getText().toString().substring(21)), 0.0, countLots);
             }
         });
     }

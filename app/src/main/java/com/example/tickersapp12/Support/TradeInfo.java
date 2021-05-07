@@ -5,7 +5,7 @@ public class TradeInfo {
     private int lot;
     private double sellPrice, buyPrice;
 
-    public TradeInfo(String ticker, double sellPrice, double buyPrice, int lot) {
+    public TradeInfo(String ticker, double buyPrice, double sellPrice, int lot) {
         this.ticker = ticker;
         this.lot = lot;
         this.sellPrice = sellPrice;

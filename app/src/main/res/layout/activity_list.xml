@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
@@ -32,31 +33,35 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <Button
-                android:layout_width="wrap_content"
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#F4CF44"
+                android:onClick="onTradeClick"
+                android:text="Trade"
                 android:textStyle="italic"
-                android:text="Trade" />
+                app:backgroundTint="#FDCA7F" />
 
-            <Button
-                android:layout_width="wrap_content"
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#F8E09A"
                 android:onClick="onStockClick"
+                android:text="Stocks"
                 android:textStyle="italic"
-                android:text="Stocks" />
+                app:backgroundTint="#FAB755" />
 
-            <Button
-                android:layout_width="wrap_content"
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#FFEED0"
                 android:onClick="onFavsClick"
+                android:text="Favourites"
                 android:textStyle="italic"
-                android:text="Favourites" />
+                app:backgroundTint="#FF9800" />
 
         </LinearLayout>
 

@@ -78,5 +78,13 @@ public class TickerViewHolder extends RecyclerView.ViewHolder {
         else this.priceChange.setTextColor(Color.RED);
     }
 
+    void setTradeDescription(Context context, String ticker, double buyPrice, double sellPrice, int lot) {
+        this.ticker.setText(ticker);
+        this.company.setText("Buy price " + buyPrice);
+        this.price.setText("Sell price " + sellPrice);
+        this.priceChange.setText("Lot: " + lot);
+
+
+    }
 
 }
