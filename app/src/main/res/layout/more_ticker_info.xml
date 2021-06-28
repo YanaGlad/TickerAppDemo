@@ -27,17 +27,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textColor="#000000"
-        tools:text="AAPL"
+        android:textColor="#9A5C01"
         android:textSize="50sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="AAPL" />
 
     <TextView
         android:id="@+id/priceTickerMore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/current_market_price"
-        android:textColor="#000000"
+        android:textColor="#9E5E01"
         android:textSize="25sp" />
 
 
@@ -52,9 +52,9 @@
         android:id="@+id/nameCompanyMore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Company: "
         android:layout_marginTop="15sp"
-        android:textColor="#000000"
+        android:text="Company: "
+        android:textColor="#B86E00"
         android:textSize="20sp" />
 
     <TextView
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20sp"
         android:text="@string/owning"
-        android:textColor="#000000"
+        android:textColor="#B86E00"
         android:textSize="20sp" />
 
 
@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lot"
-                android:textColor="#000000"
+                android:textColor="#B86E00"
                 android:textSize="20sp" />
 
             <TextView
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="#000000"
+                android:textColor="#B86E00"
                 android:textSize="20sp" />
 
             <Button
