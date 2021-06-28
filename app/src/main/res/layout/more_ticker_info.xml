@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:layout_collapseMode="parallax"
+        app:srcCompat="@drawable/longgss" />
+
+<LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8D4BB"
-    android:orientation="vertical">
+     android:orientation="vertical">
 
 
     <TextView
@@ -14,6 +28,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="#000000"
+        tools:text="AAPL"
         android:textSize="50sp"
         android:textStyle="bold" />
 
@@ -90,7 +105,9 @@
                 android:layout_marginLeft="50sp"
                 android:background="#FFC107"
                 android:text="@string/plus"
-                android:textColor="#000000" />
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#FFC107" />
 
             <Button
                 android:id="@+id/minusMore"
@@ -98,7 +115,9 @@
                 android:layout_height="36dp"
                 android:background="#FDE9AC"
                 android:text="@string/minus"
-                android:textColor="#000000" />
+                android:textAlignment="center"
+                android:textColor="#B86E00"
+                app:backgroundTint="#FBDF89" />
 
         </LinearLayout>
 
@@ -113,7 +132,8 @@
         android:layout_marginTop="20dp"
         android:background="#FFC107"
         android:text="@string/buy"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        app:backgroundTint="#FFC107" />
 
     <Button
         android:id="@+id/sellMore"
@@ -125,7 +145,10 @@
         android:background="#FDE9AC"
         android:hapticFeedbackEnabled="true"
         android:text="@string/sell"
-        android:textSize="20sp" />
+        android:textColor="#B86E00"
+        android:textSize="20sp"
+        app:backgroundTint="#FBDF89" />
 
 
 </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

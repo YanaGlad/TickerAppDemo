@@ -13,7 +13,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class ListActivity extends AppCompatActivity {
 
     private TextView ticker, company, price, change, owning, lotCount;
-    private FloatingActionButton exit;
     private Button plus, minus, buy, sell;
     private static int countLots;
 
@@ -22,7 +21,6 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.more_ticker_info);
 
-        exit = findViewById(R.id.floatingActionButton);
         ticker = findViewById(R.id.nameTickerMore);
         company = findViewById(R.id.nameCompanyMore);
         price = findViewById(R.id.priceTickerMore);
@@ -55,12 +53,6 @@ public class ListActivity extends AppCompatActivity {
         this.change.setText(changeS);
 
 
-        exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
