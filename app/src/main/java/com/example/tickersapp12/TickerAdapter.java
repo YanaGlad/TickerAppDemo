@@ -34,16 +34,6 @@ public class TickerAdapter extends RecyclerView.Adapter {
         this.onTickerClickListener = onTickerClickListener;
     }
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_ticker, parent, false);
-
-
-        return new TickerViewHolder(view);
-    }
-
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
@@ -63,6 +53,18 @@ public class TickerAdapter extends RecyclerView.Adapter {
             }
         });
     }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_ticker, parent, false);
+
+
+        return new TickerViewHolder(view);
+    }
+
+
 
     @Override
     public int getItemCount() {

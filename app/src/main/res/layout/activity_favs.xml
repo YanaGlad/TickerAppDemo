@@ -34,7 +34,6 @@
             android:text="Trade"/>
 
         <com.google.android.material.button.MaterialButton
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Stocks"/>
@@ -43,7 +42,7 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Favourites"/>
+            android:text="Featured"/>
 
     </LinearLayout>
 
